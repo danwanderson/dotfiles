@@ -94,7 +94,8 @@ if [[ `uname -s` = "Darwin" ]]; then
     alias l="ls -G"
     alias ll="ls -G -l"
 elif [[ `uname -s` = "OpenBSD" ]]; then
-    ;;
+    export PKG_PATH=http://openbsd.mirror.frontiernet.net/pub/OpenBSD/5.5/packages/`machine -a`/
+    alias ls="ls -F"
 else
     if [[ -f /etc/DIR_COLORS ]]; then
         eval `dircolors -b /etc/DIR_COLORS`
