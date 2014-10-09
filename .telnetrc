@@ -1,0 +1,3 @@
+default auth disable KERBEROS_V5
+default auth disable KERBEROS_V4
+default unset autologin
