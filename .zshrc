@@ -85,6 +85,7 @@ alias console="sudo screen /dev/tty.usbserial 9600"
 #alias engsql="ssh user@server -L 3306:127.0.0.1:3306"
 #alias mntosiris="sshfs danderson@osiris:/home/danderson ssh_mount -oauto_cache,reconnect,volname=Osiris"
 alias getfile="curl -O -C - "
+alias apollo="ssh -i ~/Dropbox/Debian_Jessie_dwa.pem admin@apollo.dreamstealer.net"
 alias gen-ospf-key="dd if=/dev/urandom count=1024 | shasum"
 
 if [[ `uname -s` = "Darwin" ]]; then
@@ -94,7 +95,8 @@ if [[ `uname -s` = "Darwin" ]]; then
     alias l="ls -G"
     alias ll="ls -G -l"
 elif [[ `uname -s` = "OpenBSD" ]]; then
-    ;;
+    export PKG_PATH=http://openbsd.mirror.frontiernet.net/pub/OpenBSD/5.5/packages/`machine -a`/
+    alias ls="ls -F" 
 else
     if [[ -f /etc/DIR_COLORS ]]; then
         eval `dircolors -b /etc/DIR_COLORS`
