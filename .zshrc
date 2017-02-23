@@ -208,3 +208,9 @@ setopt PUSHD_MINUS
 setopt PUSHD_TO_HOME
 # ignore duplicates
 setopt PUSHD_IGNOREDUPS
+
+WIDTH=`stty size | cut -d ' ' -f 2`
+
+if [[ (( $WIDTH -gt 132 )) ]]; then
+    stty cols 132
+fi
