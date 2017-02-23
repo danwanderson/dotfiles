@@ -94,7 +94,7 @@ if [[ `uname -s` = "Darwin" ]]; then
     alias l="ls -G"
     alias ll="ls -G -l"
 elif [[ `uname -s` = "OpenBSD" ]]; then
-    export PKG_PATH=http://openbsd.mirror.frontiernet.net/pub/OpenBSD/5.5/packages/`machine -a`/
+    export PKG_PATH=http://openbsd.mirror.frontiernet.net/pub/OpenBSD/`uname -r`/packages/`machine -a`/
     alias ls="ls -F"
 else
     if [[ -f /etc/DIR_COLORS ]]; then
@@ -207,3 +207,9 @@ setopt PUSHD_MINUS
 setopt PUSHD_TO_HOME
 # ignore duplicates
 setopt PUSHD_IGNOREDUPS
+
+WIDTH=`stty size | cut -d ' ' -f 2`
+
+if [[ (( $WIDTH -gt 132 )) ]]; then
+    stty cols 132
+fi
