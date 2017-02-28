@@ -80,6 +80,7 @@ alias gpg="/usr/local/bin/gpg"
 alias console="sudo screen /dev/tty.usbserial 9600"
 alias getfile="curl -O -C - "
 alias gen-ospf-key="dd if=/dev/urandom count=1024 | shasum"
+alias rename_logs="autoload zmv;zmv -W '*.log' '*.txt'"
 
 if [[ `uname -s` = "Darwin" ]]; then
     alias locate="mdfind"
