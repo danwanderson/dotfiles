@@ -75,15 +75,9 @@ MINICOM="-w"
 export MINICOM
 
 alias ipcalc="sipcalc -4"
-#alias tt="tt++ /home/dwa/.tt-config"
 alias screen="/usr/bin/screen -D -R"
-#alias mkpasswd="/usr/bin/passook -p 4"
 alias gpg="/usr/local/bin/gpg"
-#alias console="sudo screen /dev/tty.PL2303-0000101D 9600"
 alias console="sudo screen /dev/tty.usbserial 9600"
-#alias console1="sudo screen /dev/tty.PL2303-0000201A 9600"
-#alias engsql="ssh user@server -L 3306:127.0.0.1:3306"
-#alias mntosiris="sshfs danderson@osiris:/home/danderson ssh_mount -oauto_cache,reconnect,volname=Osiris"
 alias getfile="curl -O -C - "
 alias gen-ospf-key="dd if=/dev/urandom count=1024 | shasum"
 
