@@ -208,3 +208,27 @@ WIDTH=`stty size | cut -d ' ' -f 2`
 if [[ (( $WIDTH -gt 132 )) ]]; then
     stty cols 132
 fi
+
+
+# Set screen window titles
+function title {
+  if [[ $TERM == "screen" ]]; then
+    # Use these two for GNU Screen:
+    print -nR $'\033k'$1$'\033'\\
+
+    print -nR $'\033]0;'$2$'\a'
+  elif [[ $TERM == "xterm" || $TERM == "rxvt" ]]; then
+    # Use this one instead for XTerms:
+    print -nR $'\033]0;'$*$'\a'
+  fi
+}
+
+function precmd {
+  title zsh "$PWD"
+}
+
+function preexec {
+  emulate -L zsh
+  local -a cmd; cmd=(${(z)1})
+  title $cmd[1]:t "$cmd[2,-1]"
+}
