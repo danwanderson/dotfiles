@@ -10,5 +10,9 @@ set nosmartindent
 set showmode
 set shiftwidth=4
 set indentexpr=
+"set number
 filetype indent off
 filetype plugin indent off
+
+"highlight OverLength ctermbg=darkred ctermfg=white guibg=FFD9D9
+"match OverLength /\%>80v.\+/

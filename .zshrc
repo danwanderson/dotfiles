@@ -10,6 +10,17 @@ compinit
 LSCOLORS="gxfxcxdxbxegedabagacad"
 export LSCOLORS
 
+#allow tab completion in the middle of a word
+setopt COMPLETE_IN_WORD
+## restart running processes on exit
+#setopt HUP
+
+## history
+#setopt APPEND_HISTORY
+## for sharing history between zsh processes
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+
 autoload -U promptinit
 promptinit
 
@@ -75,12 +86,25 @@ MINICOM="-w"
 export MINICOM
 
 alias ipcalc="sipcalc -4"
-alias screen="/usr/bin/screen -D -R"
+#alias screen="/usr/bin/screen -D -R"
 alias gpg="/usr/local/bin/gpg"
 alias console="sudo screen /dev/tty.usbserial 9600"
 alias getfile="curl -O -C - "
 alias gen-ospf-key="dd if=/dev/urandom count=1024 | shasum"
 alias rename_logs="autoload zmv;zmv -W '*.log' '*.txt'"
+alias diff=colordiff
+alias grep="grep -E --color=auto"
+alias egrep="grep -E --color=auto"
+alias gcc="gcc -fdiagnostics-color=auto"
+alias cat="highlight --out-format xterm256 --style moria --force --quiet"
+alias tmux="/bin/tmux new-session -AD -s 0"
+
+
+export LESS="-R"
+export LESSOPEN="| $(which highlight) %s --out-format xterm256 --quiet --force --style moria"
+# This is deprecated??
+export GREP_OPTIONS='--color=auto' 
+export GREP_COLORS="mt=34;42"
 
 if [[ `uname -s` = "Darwin" ]]; then
     alias locate="mdfind"
@@ -208,3 +232,27 @@ WIDTH=`stty size | cut -d ' ' -f 2`
 if [[ (( $WIDTH -gt 132 )) ]]; then
     stty cols 132
 fi
+
+
+
+function title {
+  if [[ $TERM == "screen" ]]; then
+    # Use these two for GNU Screen:
+    print -nR $'\033k'$1$'\033'\\
+
+    print -nR $'\033]0;'$2$'\a'
+  elif [[ $TERM == "xterm" || $TERM == "rxvt" ]]; then
+    # Use this one instead for XTerms:
+    print -nR $'\033]0;'$*$'\a'
+  fi
+}
+
+function precmd {
+  title zsh "$PWD"
+}
+
+function preexec {
+  emulate -L zsh
+  local -a cmd; cmd=(${(z)1})
+  title $cmd[1]:t "$cmd[2,-1]"
+}
