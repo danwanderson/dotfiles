@@ -97,7 +97,19 @@ alias grep="grep -E --color=auto"
 alias egrep="grep -E --color=auto"
 alias gcc="gcc -fdiagnostics-color=auto"
 alias cat="highlight --out-format xterm256 --style moria --force --quiet"
-alias tmux="/bin/tmux new-session -AD -s 0"
+alias tmux="/usr/local/bin/tmux new-session -AD -s 0"
+alias screen=tmux
+alias update_oui="cd ~;curl -O http://standards-oui.ieee.org/oui/oui.txt"
+alias pwsh="docker run --rm -it danwanderson/powershell"
+alias go="docker run --rm -it danwanderson/go"
+alias rancid="docker run --rm -it --mount source=rancid,destination=/usr/local/rancid danwanderson/rancid"
+alias ansible='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro -it danwanderson/ansible'
+alias ansible-playbook='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro --entrypoint ansible-playbook -it danwanderson/ansible'
+alias az='docker run -it --rm -w="/root" --entrypoint /usr/local/bin/az -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro microsoft/azure-cli'
+alias azpwsh='docker run -it --rm  --entrypoint /usr/local/bin/pwsh -v ${HOME}:/root azuresdk/azure-powershell'
+alias wget='docker run -it --rm --entrypoint /usr/bin/wget -v ${PWD}:/data -w="/data/" inutano/wget'
+alias git='/usr/local/git/bin/git'
+alias jigdo='docker run --rm -v ${PWD}:/root -it danwanderson/jigdo'
 
 
 export LESS="-R"
@@ -256,3 +268,11 @@ function preexec {
   local -a cmd; cmd=(${(z)1})
   title $cmd[1]:t "$cmd[2,-1]"
 }
+
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+RPROMPT=\$vcs_info_msg_0_
+#zstyle ':vcs_info:git:*' formats '%b'
+zstyle ':vcs_info:git:*' formats " (%s)-[%b]%u%c-" actionformats " (%s)-[%b|%a]%u%c-"
