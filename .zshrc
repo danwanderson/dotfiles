@@ -87,17 +87,19 @@ export MINICOM
 
 alias ipcalc="sipcalc -4"
 #alias screen="/usr/bin/screen -D -R"
-alias gpg="/usr/local/bin/gpg"
 alias console="sudo screen /dev/tty.usbserial 9600"
 alias getfile="curl -O -C - "
 alias gen-ospf-key="dd if=/dev/urandom count=1024 | shasum"
 alias rename_logs="autoload zmv;zmv -W '*.log' '*.txt'"
-alias diff=colordiff
+if [[ `colordiff --help 2>&1 >/dev/null` -eq 0 ]];
+then
+    alias diff=colordiff
+fi
 alias grep="grep -E --color=auto"
 alias egrep="grep -E --color=auto"
 alias gcc="gcc -fdiagnostics-color=auto"
 alias cat="highlight --out-format xterm256 --style moria --force --quiet"
-alias tmux="/usr/local/bin/tmux new-session -AD -s 0"
+alias tmux="`which -a tmux | tail -n 1` new-session -AD -s 0"
 alias screen=tmux
 alias update_oui="cd ~;curl -O http://standards-oui.ieee.org/oui/oui.txt"
 alias pwsh="docker run --rm -it danwanderson/powershell"
@@ -108,7 +110,11 @@ alias ansible-playbook='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.s
 alias az='docker run -it --rm -w="/root" --entrypoint /usr/local/bin/az -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro microsoft/azure-cli'
 alias azpwsh='docker run -it --rm  --entrypoint /usr/local/bin/pwsh -v ${HOME}:/root azuresdk/azure-powershell'
 alias wget='docker run -it --rm --entrypoint /usr/bin/wget -v ${PWD}:/data -w="/data/" inutano/wget'
-alias git='/usr/local/git/bin/git'
+# Dumb hack to get around OSX built-in version
+if [ -f /usr/local/bin/git ];
+then
+    alias git='/usr/local/bin/git'
+fi
 alias jigdo='docker run --rm -v ${PWD}:/root -it danwanderson/jigdo'
 
 
