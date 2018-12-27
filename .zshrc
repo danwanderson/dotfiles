@@ -246,11 +246,7 @@ if [[ (( $WIDTH -gt 132 )) ]]; then
 fi
 
 
-<<<<<<< HEAD
-
-=======
 # Set screen window titles
->>>>>>> 56836b91cee44085144fb2daeeb1a548c5f29994
 function title {
   if [[ $TERM == "screen" ]]; then
     # Use these two for GNU Screen:
@@ -272,7 +268,6 @@ function preexec {
   local -a cmd; cmd=(${(z)1})
   title $cmd[1]:t "$cmd[2,-1]"
 }
-<<<<<<< HEAD
 
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
@@ -281,5 +276,3 @@ setopt prompt_subst
 RPROMPT=\$vcs_info_msg_0_
 #zstyle ':vcs_info:git:*' formats '%b'
 zstyle ':vcs_info:git:*' formats " (%s)-[%b]%u%c-" actionformats " (%s)-[%b|%a]%u%c-"
-=======
->>>>>>> 56836b91cee44085144fb2daeeb1a548c5f29994
