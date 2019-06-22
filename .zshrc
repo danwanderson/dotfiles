@@ -110,6 +110,8 @@ alias ansible-playbook='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.s
 alias az='docker run -it --rm -w="/root" --entrypoint /usr/local/bin/az -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro microsoft/azure-cli'
 alias azpwsh='docker run -it --rm  --entrypoint /usr/local/bin/pwsh -v ${HOME}:/root azuresdk/azure-powershell'
 alias wget='docker run -it --rm --entrypoint /usr/bin/wget -v ${PWD}:/data -w="/data/" inutano/wget'
+alias systemstats="sudo systemstats"
+alias bootstats="sudo systemstats -B current"
 # Dumb hack to get around OSX built-in version
 if [ -f /usr/local/bin/git ];
 then
