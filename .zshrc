@@ -284,3 +284,12 @@ setopt prompt_subst
 RPROMPT=\$vcs_info_msg_0_
 #zstyle ':vcs_info:git:*' formats '%b'
 zstyle ':vcs_info:git:*' formats " (%s)-[%b]%u%c-" actionformats " (%s)-[%b|%a]%u%c-"
+
+if [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]
+then
+  source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  typeset -A ZSH_HIGHLIGHT_PATTERNS
+  ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+  ZSH_HIGHLIGHT_PATTERNS+=('prod' 'fg-white,bold,bg=red')
+  ZSH_HIGHLIGHT_STYLES[globbing]=fg=063
+fi
