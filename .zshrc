@@ -285,6 +285,9 @@ RPROMPT=\$vcs_info_msg_0_
 #zstyle ':vcs_info:git:*' formats '%b'
 zstyle ':vcs_info:git:*' formats " (%s)-[%b]%u%c-" actionformats " (%s)-[%b|%a]%u%c-"
 
+# Syntax highlighting
+# get it from https://github.com/zsh-users/zsh-syntax-highlighting.git
+# or zprezto
 if [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]
 then
   source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
