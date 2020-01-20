@@ -232,6 +232,8 @@ setopt correctall
 
 if [[ -f /usr/bin/vim ]]; then
     export EDITOR=/usr/bin/vim
+elif [[ -f /usr/local/bin/vim ]]; then
+    export EDITOR=/usr/bin/vim
 elif [[ -f /usr/bin/vi ]]; then
     export EDITOR=/usr/bin/vi
 fi
