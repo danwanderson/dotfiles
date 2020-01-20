@@ -118,7 +118,7 @@ then
     alias git='/usr/local/bin/git'
 fi
 alias jigdo='docker run --rm -v ${PWD}:/root -it danwanderson/jigdo'
-
+alias reload_zshrc="source ~/.zshrc"
 
 export LESS="-R"
 export LESSOPEN="| $(which highlight) %s --out-format xterm256 --quiet --force --style moria"
@@ -128,6 +128,11 @@ export GREP_COLORS="mt=34;42"
 
 if [[ `uname -s` = "Darwin" ]]; then
     alias locate="mdfind"
+    alias d="ls -G"
+    alias ls="ls -G"
+    alias l="ls -G"
+    alias ll="ls -G -l"
+elif [[ `uname -s` = "FreeBSD" ]]; then
     alias d="ls -G"
     alias ls="ls -G"
     alias l="ls -G"
