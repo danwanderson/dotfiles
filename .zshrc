@@ -112,6 +112,7 @@ alias azpwsh='docker run -it --rm  --entrypoint /usr/local/bin/pwsh -v ${HOME}:/
 alias wget='docker run -it --rm --entrypoint /usr/bin/wget -v ${PWD}:/data -w="/data/" inutano/wget'
 alias systemstats="sudo systemstats"
 alias bootstats="sudo systemstats -B current"
+alias find_recursive_symlinks="find -L ."
 # Dumb hack to get around OSX built-in version
 if [ -f /usr/local/bin/git ];
 then
