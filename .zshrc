@@ -112,9 +112,9 @@ alias screen=tmux
 alias update_oui="cd ~;curl -O http://standards-oui.ieee.org/oui/oui.txt"
 
 # Check to see if we have Docker installed
-if $[ $(whence docker) ];
+if $[[ $(whence docker) ]];
 then
-    if ! [ $(whence pwsh) ];
+    if ! [[ $(whence pwsh) ]];
     then
         alias pwsh="docker run --rm -it danwanderson/powershell"
     fi
@@ -125,7 +125,7 @@ then
     alias az='docker run -it --rm -w="/root" --entrypoint /usr/local/bin/az -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro microsoft/azure-cli'
     alias azpwsh='docker run -it --rm  --entrypoint /usr/local/bin/pwsh -v ${HOME}:/root azuresdk/azure-powershell'
     alias jigdo='docker run --rm -v ${PWD}:/root -it danwanderson/jigdo'
-    if ! [ $(whence wget) ];
+    if ! [[ $(whence wget) ]];
     then
         alias wget='docker run -it --rm --entrypoint /usr/bin/wget -v ${PWD}:/data -w="/data/" inutano/wget'
     fi
