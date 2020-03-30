@@ -91,6 +91,8 @@ alias console="sudo screen /dev/tty.usbserial 9600"
 alias getfile="curl -O -C - "
 alias gen-ospf-key="dd if=/dev/urandom count=1024 | shasum"
 alias rename_logs="autoload zmv;zmv -W '*.log' '*.txt'"
+
+# Use colordiff if it's available
 if [[ $(whence colordiff) ]];
 then
     alias diff=colordiff
@@ -98,6 +100,8 @@ fi
 alias grep="grep -E --color=auto"
 alias egrep="grep -E --color=auto"
 alias gcc="gcc -fdiagnostics-color=auto"
+
+# use highlight if it's available
 if [[ $(whence highlight) ]];
 then
     alias cat="$(whence highlight) --out-format xterm256 --style moria --force --quiet"
@@ -106,17 +110,28 @@ fi
 alias tmux="$(whence tmux) new-session -AD -s 0"
 alias screen=tmux
 alias update_oui="cd ~;curl -O http://standards-oui.ieee.org/oui/oui.txt"
-if ! [ $(whence pwsh) ];
+
+# Check to see if we have Docker installed
+if $[ $(whence docker) ];
 then
-    alias pwsh="docker run --rm -it danwanderson/powershell"
+    if ! [ $(whence pwsh) ];
+    then
+        alias pwsh="docker run --rm -it danwanderson/powershell"
+    fi
+    alias go="docker run --rm -it danwanderson/go"
+    alias rancid="docker run --rm -it --mount source=rancid,destination=/usr/local/rancid danwanderson/rancid"
+    alias ansible='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro -it danwanderson/ansible'
+    alias ansible-playbook='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro --entrypoint ansible-playbook -it danwanderson/ansible'
+    alias az='docker run -it --rm -w="/root" --entrypoint /usr/local/bin/az -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro microsoft/azure-cli'
+    alias azpwsh='docker run -it --rm  --entrypoint /usr/local/bin/pwsh -v ${HOME}:/root azuresdk/azure-powershell'
+    alias jigdo='docker run --rm -v ${PWD}:/root -it danwanderson/jigdo'
+    if ! [ $(whence wget) ];
+    then
+        alias wget='docker run -it --rm --entrypoint /usr/bin/wget -v ${PWD}:/data -w="/data/" inutano/wget'
+    fi
 fi
-alias go="docker run --rm -it danwanderson/go"
-alias rancid="docker run --rm -it --mount source=rancid,destination=/usr/local/rancid danwanderson/rancid"
-alias ansible='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro -it danwanderson/ansible'
-alias ansible-playbook='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro --entrypoint ansible-playbook -it danwanderson/ansible'
-alias az='docker run -it --rm -w="/root" --entrypoint /usr/local/bin/az -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro microsoft/azure-cli'
-alias azpwsh='docker run -it --rm  --entrypoint /usr/local/bin/pwsh -v ${HOME}:/root azuresdk/azure-powershell'
-alias wget='docker run -it --rm --entrypoint /usr/bin/wget -v ${PWD}:/data -w="/data/" inutano/wget'
+
+# OSX
 alias systemstats="sudo systemstats"
 alias bootstats="sudo systemstats -B current"
 alias find_recursive_symlinks="find -L ."
@@ -125,7 +140,7 @@ if [ -f /usr/local/bin/git ];
 then
     alias git='/usr/local/bin/git'
 fi
-alias jigdo='docker run --rm -v ${PWD}:/root -it danwanderson/jigdo'
+
 alias reload_zshrc="source ~/.zshrc"
 
 export LESS="-R"
