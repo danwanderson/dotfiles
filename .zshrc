@@ -112,7 +112,7 @@ alias screen=tmux
 alias update_oui="cd ~;curl -O http://standards-oui.ieee.org/oui/oui.txt"
 
 # Check to see if we have Docker installed
-if $[[ $(whence docker) ]];
+if [[ $(whence docker) ]];
 then
     if ! [[ $(whence pwsh) ]];
     then
