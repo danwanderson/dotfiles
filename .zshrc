@@ -26,6 +26,14 @@ promptinit
 
 autoload colors
 colors
+
+
+# Returns whether the given command is executable or aliased.
+_has() {
+  return $( whence $1 &>/dev/null )
+}
+
+
 # dan prompt theme (based on gentoo prompt theme)
 
 function prompt_dan_help () {
@@ -93,7 +101,7 @@ alias gen-ospf-key="dd if=/dev/urandom count=1024 | shasum"
 alias rename_logs="autoload zmv;zmv -W '*.log' '*.txt'"
 
 # Use colordiff if it's available
-if [[ $(whence colordiff) ]];
+if _has colordiff;
 then
     alias diff=colordiff
 fi
@@ -102,7 +110,7 @@ alias egrep="grep -E --color=auto"
 alias gcc="gcc -fdiagnostics-color=auto"
 
 # use highlight if it's available
-if [[ $(whence highlight) ]];
+if _has highlight;
 then
     alias cat="$(whence highlight) --out-format xterm256 --style moria --force --quiet"
     export LESSOPEN="| $(which highlight) %s --out-format xterm256 --quiet --force --style moria"
@@ -112,9 +120,9 @@ alias screen=tmux
 alias update_oui="cd ~;curl -O http://standards-oui.ieee.org/oui/oui.txt"
 
 # Check to see if we have Docker installed
-if [[ $(whence docker) ]];
+if _has docker;
 then
-    if ! [[ $(whence pwsh) ]];
+    if ! _has pwsh;
     then
         alias pwsh="docker run --rm -it danwanderson/powershell"
     fi
@@ -125,7 +133,7 @@ then
     alias az='docker run -it --rm -w="/root" --entrypoint /usr/local/bin/az -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro microsoft/azure-cli'
     alias azpwsh='docker run -it --rm  --entrypoint /usr/local/bin/pwsh -v ${HOME}:/root azuresdk/azure-powershell'
     alias jigdo='docker run --rm -v ${PWD}:/root -it danwanderson/jigdo'
-    if ! [[ $(whence wget) ]];
+    if ! _has wget;
     then
         alias wget='docker run -it --rm --entrypoint /usr/bin/wget -v ${PWD}:/data -w="/data/" inutano/wget'
     fi
