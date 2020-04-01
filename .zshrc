@@ -33,7 +33,14 @@ _has() {
   return $( whence $1 &>/dev/null )
 }
 
+# Returns whether the given statement executed cleanly. Try to avoid this
+# because this slows down shell loading.
+_try() {
+  return $( eval $* &>/dev/null )
+}
 
+
+### Begin Theme
 # dan prompt theme (based on gentoo prompt theme)
 
 function prompt_dan_help () {
@@ -78,26 +85,24 @@ function prompt_dan_setup () {
     preexec () { }
 }
 
-#prompt_dan_setup "$@"
 prompt_dan_setup cyan green red
-
-
-#prompt gentoo
-#if [[ `prompt -l` = *dan* ]]; then
-#    prompt dan
-#else
-#    prompt suse
-#fi
+### End Theme
 
 # Turn on minicom line wrapping
 MINICOM="-w"
 export MINICOM
 
+
 alias ipcalc="sipcalc -4"
+# screen replaced by tmux in my day-to-day
+# screen - attach here NOW and disconnect any other sessions
 #alias screen="/usr/bin/screen -D -R"
 alias console="sudo screen /dev/tty.usbserial 9600"
 alias getfile="curl -O -C - "
+# Generate OSPFv3 keys
 alias gen-ospf-key="dd if=/dev/urandom count=1024 | shasum"
+# Bulk rename of logs from RoyalTSX
+# For some reason, they don't let you change the file suffix
 alias rename_logs="autoload zmv;zmv -W '*.log' '*.txt'"
 
 # Use colordiff if it's available
@@ -105,34 +110,58 @@ if _has colordiff;
 then
     alias diff=colordiff
 fi
+
+# Turn on grep colors and alias grep to egrep
 alias grep="grep -E --color=auto"
 alias egrep="grep -E --color=auto"
+
+# Turn on colors for GCC
 alias gcc="gcc -fdiagnostics-color=auto"
 
 # use highlight if it's available
 if _has highlight;
 then
     alias cat="$(whence highlight) --out-format xterm256 --style moria --force --quiet"
+    alias rcat=/bin/cat
     export LESSOPEN="| $(which highlight) %s --out-format xterm256 --quiet --force --style moria"
 fi
+
 alias tmux="$(whence tmux) new-session -AD -s 0"
 alias screen=tmux
+
+# Update IEEE OUI file locally
 alias update_oui="cd ~;curl -O http://standards-oui.ieee.org/oui/oui.txt"
 
 # Check to see if we have Docker installed
 if _has docker;
 then
+    # If powershell isn't installed locally, use the container
     if ! _has pwsh;
     then
         alias pwsh="docker run --rm -it danwanderson/powershell"
     fi
-    alias go="docker run --rm -it danwanderson/go"
+    # If Go isn't installed locally, use the container
+    if ! _has go;
+    then
+        alias go="docker run --rm -it danwanderson/go"
+    fi
+    # Attempt to do RANCID in a container - never finished
     alias rancid="docker run --rm -it --mount source=rancid,destination=/usr/local/rancid danwanderson/rancid"
-    alias ansible='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro -it danwanderson/ansible'
-    alias ansible-playbook='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro --entrypoint ansible-playbook -it danwanderson/ansible'
-    alias az='docker run -it --rm -w="/root" --entrypoint /usr/local/bin/az -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro microsoft/azure-cli'
-    alias azpwsh='docker run -it --rm  --entrypoint /usr/local/bin/pwsh -v ${HOME}:/root azuresdk/azure-powershell'
+    # if ansible isn't installed locally, use the container
+    if ! _has ansible;
+    then
+        alias ansible='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro -it danwanderson/ansible'
+        alias ansible-playbook='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro --entrypoint ansible-playbook -it danwanderson/ansible'
+    fi
+    # if Azure CLI isn't installed locally, use the container
+    if ! _has az;
+    then
+        alias az='docker run -it --rm -w="/root" --entrypoint /usr/local/bin/az -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro microsoft/azure-cli'
+        alias azpwsh='docker run -it --rm  --entrypoint /usr/local/bin/pwsh -v ${HOME}:/root azuresdk/azure-powershell'
+    fi
+    # Jigdo container (for Debian images)
     alias jigdo='docker run --rm -v ${PWD}:/root -it danwanderson/jigdo'
+    # If wget isn't installed locally, use the container
     if ! _has wget;
     then
         alias wget='docker run -it --rm --entrypoint /usr/bin/wget -v ${PWD}:/data -w="/data/" inutano/wget'
@@ -142,35 +171,55 @@ fi
 # OSX
 alias systemstats="sudo systemstats"
 alias bootstats="sudo systemstats -B current"
+
+# Find recursive symlinks
 alias find_recursive_symlinks="find -L ."
-# Dumb hack to get around OSX built-in version
-if [ -f /usr/local/bin/git ];
-then
-    alias git='/usr/local/bin/git'
-fi
+
+
 
 alias reload_zshrc="source ~/.zshrc"
 
+# Colors in less
 export LESS="-R"
 # This is deprecated??
 export GREP_OPTIONS='--color=auto' 
 export GREP_COLORS="mt=34;42"
 
-if [[ $(uname -s) = "Darwin" ]]; then
+# HOSTTYPE = { Linux | OpenBSD | SunOS | etc. }
+if which uname &>/dev/null; then
+  HOSTTYPE=`uname -s`
+else
+  HOSTTYPE=unknown
+fi
+export HOSTTYPE
+
+
+if [[ "$HOSTTYPE" = "Darwin" ]]; then
     alias locate="mdfind"
     alias d="ls -G"
     alias ls="ls -G"
     alias l="ls -G"
     alias ll="ls -G -l"
-elif [[ $(uname -s) = "FreeBSD" ]]; then
+    # Dumb hack to get around OSX built-in version
+    if [ -f /usr/local/bin/git ];
+    then
+        alias git='/usr/local/bin/git'
+    fi
+fi
+
+if [[ "$HOSTTYPE" = "FreeBSD" ]]; then
     alias d="ls -G"
     alias ls="ls -G"
     alias l="ls -G"
     alias ll="ls -G -l"
-elif [[ $(uname -s) = "OpenBSD" ]]; then
+fi
+
+if [[ "$HOSTTYPE" = "OpenBSD" ]]; then
     export PKG_PATH=http://openbsd.mirror.frontiernet.net/pub/OpenBSD/$(uname -r)/packages/$(machine -a)/
     alias ls="ls -F"
-else
+fi
+
+if [[ "$HOSTTYPE" = "Linux" ]]; then
     if [[ -f /etc/DIR_COLORS ]]; then
         eval $(dircolors -b /etc/DIR_COLORS)
     fi
@@ -260,14 +309,30 @@ zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
 zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
 setopt correctall
 
-if [[ -f /usr/bin/vim ]]; then
-    export EDITOR=/usr/bin/vim
-elif [[ -f /usr/local/bin/vim ]]; then
-    export EDITOR=/usr/bin/vim
-elif [[ -f /usr/bin/vi ]]; then
-    export EDITOR=/usr/bin/vi
+# Ignore useless files, like .pyc.
+zstyle ':completion:*:(all-|)files' ignored-patterns '(|*/).pyc'
+
+# Completing process IDs with menu selection.
+zstyle ':completion:*:*:kill:*' menu yes select
+zstyle ':completion:*:kill:*'   force-list always
+
+# Load menu-style completion.
+zmodload -i zsh/complist
+# bindkey -M menuselect '^M' accept
+
+# Editor of choice (vim->vi->nano)
+if _has vim;
+then
+    export EDITOR=vim
+    alias vi=vim
+elif _has vi;
+then
+    export EDITOR=vi
+else
+    export EDITOR=nano
 fi
 
+# Set pager to less
 export PAGER=less
 
 # use the built in directory navigation via the directory stack
@@ -284,6 +349,8 @@ setopt PUSHD_TO_HOME
 # ignore duplicates
 setopt PUSHD_IGNOREDUPS
 
+
+# try to update the terminal size
 WIDTH=`stty size | cut -d ' ' -f 2`
 
 if [[ (( $WIDTH -gt 132 )) ]]; then
@@ -314,6 +381,7 @@ function preexec {
     title $cmd[1]:t "$cmd[2,-1]"
 }
 
+# Fancy source control prompts
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
@@ -342,4 +410,21 @@ fi
 if [ -f /opt/rh/llvm-toolset-7/enable ];
 then
     source /opt/rh/llvm-toolset-7/enable
+fi
+
+## Verbose copy by default
+for c in cp rm chmod chown rename mv; do
+  alias $c="$c -v"
+done
+
+
+# Humanize disk space if possible
+if _try df -H ~; then
+  alias df='df -H'
+elif _try df -h ~; then
+  alias df='df -h'
+fi
+
+if [ -e ~/.zshlocal ]; then
+  . ~/.zshlocal
 fi
