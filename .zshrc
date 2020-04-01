@@ -333,3 +333,13 @@ then
     ZSH_HIGHLIGHT_PATTERNS+=('prod' 'fg-white,bold,bg=red')
     ZSH_HIGHLIGHT_STYLES[globbing]=fg=063
 fi
+
+## Clang support for RHEL7
+if [ -f /opt/rh/devtoolset-7/enable ];
+then
+    source /opt/rh/devtoolset-7/enable
+fi
+if [ -f /opt/rh/llvm-toolset-7/enable ];
+then
+    source /opt/rh/llvm-toolset-7/enable
+fi
