@@ -425,6 +425,8 @@ elif _try df -h ~; then
   alias df='df -h'
 fi
 
+
+## Import machine-specific settings if available
 if [ -e ~/.zshlocal ]; then
   . ~/.zshlocal
 fi
