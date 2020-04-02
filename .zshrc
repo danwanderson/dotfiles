@@ -1,4 +1,5 @@
-#
+#! /usr/bin/env zsh
+
 # /etc/zshrc is sourced in interactive shells.  It
 # should contain commands to set up aliases, functions,
 # options, key bindings, etc.
@@ -81,8 +82,13 @@ function prompt_dan_setup () {
     PS2="$base_prompt$path_prompt %_> $post_prompt"
     PS3="$base_prompt$path_prompt ?# $post_prompt"
 
-    precmd  () { }
-    preexec () { }
+    function precmd  () {
+        title "zsh" "%m:%55<...<%~"
+    }
+    
+    function preexec () { 
+        title "$1" "%m:%35<...<%~"
+    }
 }
 
 prompt_dan_setup cyan green red
@@ -295,8 +301,12 @@ fi
 case $TERM in
 #    xterm*|screen*)
     xterm*)
-        precmd () {print -Pn "\e]0;%n@%m: %~\a"}
-        preexec () { print -Pn "\e]0;%n@%m: $1\a" }
+        function precmd () { 
+            print -Pn "\e]0;%n@%m: %~\a" 
+        }
+        function preexec () { 
+            print -Pn "\e]0;%n@%m: $1\a"
+        }
         #preexec () { print -Pn "\e]0;%n@%m: $*\a" }   #OLD
         ;;
 esac
@@ -383,7 +393,9 @@ function preexec {
 
 # Fancy source control prompts
 autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
+function precmd_vcs_info() {
+    vcs_info
+}
 precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
 RPROMPT=\$vcs_info_msg_0_
