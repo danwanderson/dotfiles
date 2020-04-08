@@ -188,7 +188,7 @@ alias reload_zshrc="source ~/.zshrc"
 # Colors in less
 export LESS="-R"
 # This is deprecated??
-export GREP_OPTIONS='--color=auto' 
+#export GREP_OPTIONS='--color=auto' 
 export GREP_COLORS="mt=34;42"
 
 # HOSTTYPE = { Linux | OpenBSD | SunOS | etc. }
