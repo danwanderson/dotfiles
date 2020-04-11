@@ -405,7 +405,9 @@ zstyle ':vcs_info:git:*' formats " (%s)-[%b]%u%c-" actionformats " (%s)-[%b|%a]%
 # Syntax highlighting
 # get it from https://github.com/zsh-users/zsh-syntax-highlighting.git
 # or zprezto
-if [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]
+# or in some cases, packages
+if [[ ( -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 
+    || -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ) ]];
 then
     source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
     typeset -A ZSH_HIGHLIGHT_PATTERNS
