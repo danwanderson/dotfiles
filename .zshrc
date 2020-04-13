@@ -406,16 +406,29 @@ zstyle ':vcs_info:git:*' formats " (%s)-[%b]%u%c-" actionformats " (%s)-[%b|%a]%
 # get it from https://github.com/zsh-users/zsh-syntax-highlighting.git
 # or zprezto
 # or in some cases, packages
-if [[ ( -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 
-    || -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    || -f ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ) ]];
-then
-    source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+function configure_highlight() {
     typeset -A ZSH_HIGHLIGHT_PATTERNS
     ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
     ZSH_HIGHLIGHT_PATTERNS+=('prod' 'fg-white,bold,bg=red')
     ZSH_HIGHLIGHT_STYLES[globbing]=fg=063
+}
+
+if [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ];
+then
+    source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    configure_highlight
 fi
+if [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ];
+then
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    configure_highlight
+fi
+if [ -f ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ];
+then
+    source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    configure_highlight
+fi
+
 
 ## Clang support for RHEL7
 if [ -f /opt/rh/devtoolset-7/enable ];
