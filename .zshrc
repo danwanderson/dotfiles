@@ -28,6 +28,7 @@ promptinit
 autoload colors
 colors
 
+fpath=(~/.zsh_completion $fpath)
 
 # Returns whether the given command is executable or aliased.
 _has() {
