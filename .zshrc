@@ -455,6 +455,6 @@ fi
 
 
 ## Import machine-specific settings if available
-if [ -e ~/.zshlocal ]; then
-  . ~/.zshlocal
+if [ -e ~/.zshrc_local ]; then
+  source ~/.zshrc_local
 fi
