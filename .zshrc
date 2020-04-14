@@ -454,6 +454,13 @@ elif _try df -h ~; then
   alias df='df -h'
 fi
 
+# Misc
+sanitize_mac() {
+    # translate e41a.2c00.f4f6 to standard-format
+    # translate lowercase to uppercase, remove dots, print with colons between every 2 characters
+    local MAC=$(echo "${1}" | tr '[:lower:]' '[:upper:]' | sed -e 's/\.//g' -e 's/://g' | awk -F '' '{printf ("%s:%s:%s:%s:%s:%s", $1$2, $3$4, $5$6, $7$8, $9$10, $11$12)}')
+    echo "${MAC}"
+}
 
 ## Import machine-specific settings if available
 if [ -e ~/.zshrc_local ]; then
