@@ -231,7 +231,7 @@ if [[ "$HOSTTYPE" = "Linux" ]]; then
         eval $(dircolors -b /etc/DIR_COLORS)
     fi
     alias d="ls --color"
-    alias ls="ls --color=auto"
+    alias ls="ls -F --color=auto"
     alias l="ls --color=auto"
     alias ll="ls --color -l"
 fi
