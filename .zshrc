@@ -159,6 +159,7 @@ then
     then
         alias ansible='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro -it danwanderson/ansible'
         alias ansible-playbook='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro --entrypoint ansible-playbook -it danwanderson/ansible'
+        alias ansible-vault='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro --entrypoint ansible-vault -it danwanderson/ansible'
     fi
     # if Azure CLI isn't installed locally, use the container
     if ! _has az;
