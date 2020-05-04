@@ -32,7 +32,7 @@ fpath=(~/.zsh_completion $fpath)
 
 # Returns whether the given command is executable or aliased.
 _has() {
-  return $( whence $1 &>/dev/null )
+  return $( whence -p $1 &>/dev/null )
 }
 
 # Returns whether the given statement executed cleanly. Try to avoid this
@@ -128,12 +128,12 @@ alias gcc="gcc -fdiagnostics-color=auto"
 # use highlight if it's available
 if _has highlight;
 then
-    alias cat="$(whence highlight) --out-format xterm256 --style moria --force --quiet"
+    alias cat="$(whence -p highlight) --out-format xterm256 --style moria --force --quiet"
     alias rcat=/bin/cat
     export LESSOPEN="| $(which highlight) %s --out-format xterm256 --quiet --force --style moria"
 fi
 
-alias tmux="$(whence tmux) new-session -AD -s 0"
+alias tmux="$(whence -p tmux) new-session -AD -s 0"
 alias screen=tmux
 
 # Update IEEE OUI file locally
