@@ -3,7 +3,114 @@
 # /etc/zshrc is sourced in interactive shells.  It
 # should contain commands to set up aliases, functions,
 # options, key bindings, etc.
+
+#### Begin from oh-my-zsh default .zshrc
+
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="${HOME}/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="fino-time"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS=true
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
 #
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+
+#### END from oh-my-zsh default .zshrc
+
+
+
 #complist
 autoload -U compinit
 compinit
@@ -40,65 +147,6 @@ _has() {
 _try() {
   return $( eval $* &>/dev/null )
 }
-
-
-### Begin Theme
-# dan prompt theme (based on gentoo prompt theme)
-
-function prompt_dan_help () {
-    cat <<'EOF'
-This prompt is color-scheme-able.  You can invoke it thus:
-
-  prompt dan [<promptcolor> [<usercolor> [<rootcolor>]]]
-
-EOF
-}
-
-function prompt_dan_setup () {
-    prompt_dan_prompt=${1:-'blue'}
-    prompt_dan_user=${2:-'green'}
-    prompt_dan_root=${3:-'red'}
-
-    if [ "$USER" = 'root' ]
-    then
-        base_prompt="%{$fg_bold[$prompt_dan_root]%}%m%{$reset_color%} "
-    else
-        base_prompt="%{$fg_bold[$prompt_dan_user]%}%n@%m%{$reset_color%} "
-    fi
-    post_prompt="%{$reset_color%}"
-
-    local color="%{*}"
-    base_prompt_no_color="${(S)base_prompt//${~color}/}"
-    post_prompt_no_color="${(S)post_prompt//${~color}/}"
-
-    setopt noxtrace localoptions
-    local base_prompt_expanded_no_color base_prompt_etc
-    local prompt_length space_left
-
-    base_prompt_expanded_no_color=$(print -P "$base_prompt_no_color")
-    base_prompt_etc=$(print -P "$base_prompt%(4~|...|)%3~")
-    prompt_length=${#base_prompt_etc}
-    path_prompt="%{$fg_bold[$prompt_dan_prompt]%}%~"
-    PS1="$base_prompt$path_prompt %# $post_prompt"
-    PS2="$base_prompt$path_prompt %_> $post_prompt"
-    PS3="$base_prompt$path_prompt ?# $post_prompt"
-
-    function precmd  () {
-        title "zsh" "%m:%55<...<%~"
-    }
-    
-    function preexec () { 
-        title "$1" "%m:%35<...<%~"
-    }
-}
-
-prompt_dan_setup cyan green red
-### End Theme
-
-# Turn on minicom line wrapping
-MINICOM="-w"
-export MINICOM
-
 
 alias ipcalc="sipcalc -4"
 # screen replaced by tmux in my day-to-day
@@ -183,14 +231,12 @@ alias bootstats="sudo systemstats -B current"
 # Find recursive symlinks
 alias find_recursive_symlinks="find -L ."
 
-
-
 alias reload_zshrc="source ~/.zshrc"
 
 # Colors in less
 export LESS="-R"
 # This is deprecated??
-#export GREP_OPTIONS='--color=auto' 
+#export GREP_OPTIONS='--color=auto'
 export GREP_COLORS="mt=34;42"
 
 # HOSTTYPE = { Linux | OpenBSD | SunOS | etc. }
@@ -262,7 +308,7 @@ if [[ $TERM = "screen" ]]; then
     # when running a command, show the title of the command as the rest of the
     # title (truncate to drop the path to the command)
     TAB_TITLE_EXEC='$cmd[1]:t'
-  
+
     # use the current path (with standard ~ replacement) in square brackets as the
     # prefix of the tab window hardstatus.
     TAB_HARDSTATUS_PREFIX='"[`echo $PWD | sed "s/^\/home\//~/;s/^~$USER/~/"`] "'
@@ -272,10 +318,10 @@ if [[ $TERM = "screen" ]]; then
     # when running a command, show the command name and arguments as the rest of
     # the title
     TAB_HARDSTATUS_EXEC='$cmd'
- 
+
     # tell GNU screen what the tab window title ($1) and the hardstatus($2) should be
     function screen_set()
-    {  
+    {
         #  set the tab window title (%t) for screen
         print -nR $'\033k'$1$'\033'\\\
 
@@ -303,10 +349,10 @@ fi
 case $TERM in
 #    xterm*|screen*)
     xterm*)
-        function precmd () { 
-            print -Pn "\e]0;%n@%m: %~\a" 
+        function precmd () {
+            print -Pn "\e]0;%n@%m: %~\a"
         }
-        function preexec () { 
+        function preexec () {
             print -Pn "\e]0;%n@%m: $1\a"
         }
         #preexec () { print -Pn "\e]0;%n@%m: $*\a" }   #OLD
@@ -393,16 +439,9 @@ function preexec {
     title $cmd[1]:t "$cmd[2,-1]"
 }
 
-# Fancy source control prompts
-autoload -Uz vcs_info
-function precmd_vcs_info() {
-    vcs_info
+function install_omz() {
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
-precmd_functions+=( precmd_vcs_info )
-setopt prompt_subst
-RPROMPT=\$vcs_info_msg_0_
-#zstyle ':vcs_info:git:*' formats '%b'
-zstyle ':vcs_info:git:*' formats " (%s)-[%b]%u%c-" actionformats " (%s)-[%b|%a]%u%c-"
 
 # Syntax highlighting
 # get it from https://github.com/zsh-users/zsh-syntax-highlighting.git
@@ -429,17 +468,6 @@ if [ -f ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ];
 then
     source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
     configure_highlight
-fi
-
-
-## Clang support for RHEL7
-if [ -f /opt/rh/devtoolset-7/enable ];
-then
-    source /opt/rh/devtoolset-7/enable
-fi
-if [ -f /opt/rh/llvm-toolset-7/enable ];
-then
-    source /opt/rh/llvm-toolset-7/enable
 fi
 
 ## Verbose copy by default
