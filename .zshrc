@@ -442,6 +442,7 @@ function preexec {
 function install_omz() {
     if _has git;
     then
+        STARTDIR="${PWD}"
         if ! [ -d ~/.oh-my-zsh ]; then
             git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
         else
@@ -456,6 +457,7 @@ function install_omz() {
             git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
         else
             cd ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && git pull
+            cd "${STARTDIR}"
         fi
     else
         echo "Please install git first"
