@@ -76,7 +76,7 @@ ZSH_THEME="fino-time"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git mercurial zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -440,35 +440,22 @@ function preexec {
 }
 
 function install_omz() {
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    if _has git;
+    then
+        git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+        git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+    else
+        echo "Please install git first"
+    fi
 }
 
 # Syntax highlighting
-# get it from https://github.com/zsh-users/zsh-syntax-highlighting.git
-# or zprezto
-# or in some cases, packages
-function configure_highlight() {
-    typeset -A ZSH_HIGHLIGHT_PATTERNS
-    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
-    ZSH_HIGHLIGHT_PATTERNS+=('prod' 'fg-white,bold,bg=red')
-    ZSH_HIGHLIGHT_STYLES[globbing]=fg=063
-}
-
-if [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ];
-then
-    source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    configure_highlight
-fi
-if [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ];
-then
-    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    configure_highlight
-fi
-if [ -f ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ];
-then
-    source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    configure_highlight
-fi
+typeset -A ZSH_HIGHLIGHT_PATTERNS
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+ZSH_HIGHLIGHT_PATTERNS+=('prod' 'fg-white,bold,bg=red')
+ZSH_HIGHLIGHT_STYLES[globbing]=fg=063
 
 ## Verbose copy by default
 for c in cp rm chmod chown rename mv; do
