@@ -78,7 +78,10 @@ ZSH_THEME="fino-time"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git mercurial zsh-autosuggestions zsh-syntax-highlighting)
 
-source $ZSH/oh-my-zsh.sh
+if -f [ $ZSH/oh-my-zsh.sh ];
+then
+    source $ZSH/oh-my-zsh.sh
+fi
 
 # User configuration
 
