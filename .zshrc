@@ -494,6 +494,10 @@ sanitize_mac() {
     echo "${MAC}"
 }
 
+# oh-my-zsh
+DISABLE_UPDATE_PROMPT=true
+#DISABLE_AUTO_UPDATE=true
+
 ## Import machine-specific settings if available
 if [ -e ~/.zshrc_local ]; then
   source ~/.zshrc_local
