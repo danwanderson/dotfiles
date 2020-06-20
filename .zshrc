@@ -35,7 +35,7 @@ ZSH_THEME="fino-time"
 # DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+DISABLE_UPDATE_PROMPT="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -493,10 +493,6 @@ sanitize_mac() {
     local MAC=$(echo "${1}" | tr '[:lower:]' '[:upper:]' | sed -e 's/\.//g' -e 's/://g' | awk -F '' '{printf ("%s:%s:%s:%s:%s:%s", $1$2, $3$4, $5$6, $7$8, $9$10, $11$12)}')
     echo "${MAC}"
 }
-
-# oh-my-zsh
-DISABLE_UPDATE_PROMPT=true
-#DISABLE_AUTO_UPDATE=true
 
 ## Import machine-specific settings if available
 if [ -e ~/.zshrc_local ]; then
