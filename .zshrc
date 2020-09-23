@@ -411,12 +411,13 @@ setopt PUSHD_TO_HOME
 setopt PUSHD_IGNOREDUPS
 
 
+# Why did I do this? Seems to cause more problems than it solves
 # try to update the terminal size
-WIDTH=`stty size | cut -d ' ' -f 2`
+#WIDTH=`stty size | cut -d ' ' -f 2`
 
-if [[ (( $WIDTH -gt 132 )) ]]; then
-    stty cols 132
-fi
+#if [[ (( $WIDTH -gt 132 )) ]]; then
+#    stty cols 132
+#fi
 
 
 # Set screen window titles
