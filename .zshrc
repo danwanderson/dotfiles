@@ -203,8 +203,6 @@ then
     then
         alias go="docker run --rm -it danwanderson/go"
     fi
-    # Attempt to do RANCID in a container - never finished
-    alias rancid="docker run --rm -it --mount source=rancid,destination=/usr/local/rancid danwanderson/rancid"
     # if ansible isn't installed locally, use the container
     if ! _has ansible;
     then
@@ -485,6 +483,11 @@ if _try df -H ~; then
   alias df='df -H'
 elif _try df -h ~; then
   alias df='df -h'
+fi
+
+if _has fping;
+then
+    alias ping='fping'
 fi
 
 # Misc
