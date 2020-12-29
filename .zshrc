@@ -260,6 +260,7 @@ if [[ "$HOSTTYPE" = "Darwin" ]]; then
     then
         alias git='/usr/local/bin/git'
     fi
+    alias dirsize="du -h -d 1 | sort -h"
 fi
 
 if [[ "$HOSTTYPE" = "FreeBSD" ]]; then
@@ -267,11 +268,13 @@ if [[ "$HOSTTYPE" = "FreeBSD" ]]; then
     alias ls="ls -G"
     alias l="ls -G"
     alias ll="ls -G -l"
+    alias dirsize="du -h --max-depth=1 | sort -h"
 fi
 
 if [[ "$HOSTTYPE" = "OpenBSD" ]]; then
     export PKG_PATH=http://openbsd.mirror.frontiernet.net/pub/OpenBSD/$(uname -r)/packages/$(machine -a)/
     alias ls="ls -F"
+    alias dirsize="du -h --max-depth=1 | sort -h"
 fi
 
 if [[ "$HOSTTYPE" = "Linux" ]]; then
@@ -282,6 +285,7 @@ if [[ "$HOSTTYPE" = "Linux" ]]; then
     alias ls="ls -F --color=auto"
     alias l="ls --color=auto"
     alias ll="ls --color -l"
+    alias dirsize="du -h --max-depth=1 | sort -h"
 fi
 
 ## shell functions
