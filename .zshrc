@@ -260,6 +260,10 @@ if [[ "$HOSTTYPE" = "Darwin" ]]; then
     then
         alias git='/usr/local/bin/git'
     fi
+    if [ -f /usr/local/bin/gawk ];
+    then
+        alias awk='/usr/local/bin/gawk'
+    fi
     alias dirsize="du -h -d 1 | sort -h"
 fi
 
@@ -495,12 +499,69 @@ then
 fi
 
 # Misc
+validate_mac() {
+    local MAC=$(echo "${1}" | tr '[:upper:]' '[:lower:]' | sed -e 's/ //g')
+
+    # 56:5e:f7:a5:f8:fd
+    if [[ "${MAC}" =~ ^[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2} ]];
+    then
+        return 0
+    fi
+
+    # 565e.f7a5.f8fd
+    if [[ "${MAC}" =~ ^[0-9a-f]{4}\.[0-9a-f]{4}\.[0-9a-f]{4} ]];
+    then
+        return 0
+    fi
+    # 565ef7a5f8fd
+    if [[ "${MAC}" =~ ^[0-9a-f]{12} ]];
+    then
+        return 0
+    fi
+
+    # None of the above - it's not a MAC
+    return 1
+}
+
 sanitize_mac() {
     # translate e41a.2c00.f4f6 to standard-format
     # translate lowercase to uppercase, remove dots, print with colons between every 2 characters
-    local MAC=$(echo "${1}" | tr '[:lower:]' '[:upper:]' | sed -e 's/\.//g' -e 's/://g' | awk -F '' '{printf ("%s:%s:%s:%s:%s:%s", $1$2, $3$4, $5$6, $7$8, $9$10, $11$12)}')
+    local MAC=$(echo "${1}" | tr '[:lower:]' '[:upper:]' | sed -e 's/ //g' -e 's/\.//g' -e 's/://g' | awk -F '' '{printf ("%s:%s:%s:%s:%s:%s", $1$2, $3$4, $5$6, $7$8, $9$10, $11$12)}')
     echo "${MAC}"
 }
+
+oui_search () {
+    local INPUT="${1}"
+    local MAC=""
+    local OUI=""
+
+    if ! _has ip;
+    then
+        echo "iproute2 package not found."
+        echo "This function requires the \"ip\" command."
+        return
+    fi
+
+    # If it doesn't look like a valid MAC address, then try interface
+    if ! validate_mac "${INPUT}";
+    then
+        MAC=$(ip addr show "${INPUT}" | grep -Eo "ether .*" | sed -e 's/ether//' -e 's/brd.*//' -e 's/ //g')
+    else
+        MAC=$(sanitize_mac "${INPUT}")
+    fi
+
+    MAC=$(echo $MAC | sed -e 's/:/-/g' | tr '[:lower:]' '[:upper:]')
+    OUI="${MAC:0:8}"
+
+    if ! [ -z "${OUI}" ];
+    then
+        curl --silent http://standards-oui.ieee.org/oui/oui.txt | grep "${OUI}"
+    else
+        echo "No MAC address supplied or an invalid interface was specified"
+        return
+    fi
+}
+
 
 ## Import machine-specific settings if available
 if [ -e ~/.zshrc_local ]; then
