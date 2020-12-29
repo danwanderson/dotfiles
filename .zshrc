@@ -562,6 +562,52 @@ oui_search () {
     fi
 }
 
+# Find out if it's a valid IPv6 address
+_is_ipv6 () {
+    if ! _has ip;
+    then
+        echo "iproute2 package not found."
+        echo "This function requires the \"ip\" command."
+        return
+    fi
+
+    return $( eval ip -6 route get "${1}" >/dev/null 2>&1 )
+}
+
+# User-called function (echos to terminal)
+is_ipv6() {
+    if _is_ipv6 "${1}"
+    then
+        echo "${1} is a valid IPv6 address"
+    else
+        echo "${1} is NOT a valid IPv6 address"
+    fi
+}
+
+# Find out if it's a valid IPv4 address
+# On OSX, this is flawed because the iproute2mac package doesn't
+# seem to respect the IPv4 address family and will happily show
+# IPv6 routes
+_is_ipv4 () {
+    if ! _has ip;
+    then
+        echo "iproute2 package not found."
+        echo "This function requires the \"ip\" command."
+        return
+    fi
+
+    return $( eval ip -4 route get "${1}" >/dev/null 2>&1 )
+}
+
+# User-called function (echos to terminal)
+is_ipv4() {
+    if _is_ipv4 "${1}"
+    then
+        echo "${1} is a valid IPv4 address"
+    else
+        echo "${1} is NOT a valid IPv4 address"
+    fi
+}
 
 ## Import machine-specific settings if available
 if [ -e ~/.zshrc_local ]; then
