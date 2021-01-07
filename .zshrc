@@ -264,7 +264,7 @@ if [[ "$HOSTTYPE" = "Darwin" ]]; then
     then
         alias awk='/usr/local/bin/gawk'
     fi
-    alias dirsize="du -h -d 1 | sort -h"
+    alias dirsize="du -h -d 1 | sort -h;df -hP ."
 fi
 
 if [[ "$HOSTTYPE" = "FreeBSD" ]]; then
@@ -272,7 +272,7 @@ if [[ "$HOSTTYPE" = "FreeBSD" ]]; then
     alias ls="ls -G"
     alias l="ls -G"
     alias ll="ls -G -l"
-    alias dirsize="du -h --max-depth=1 | sort -h"
+    alias dirsize="du -h --max-depth=1 | sort -h; df --human-readable ."
 fi
 
 if [[ "$HOSTTYPE" = "OpenBSD" ]]; then
