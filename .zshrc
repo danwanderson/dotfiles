@@ -289,7 +289,7 @@ if [[ "$HOSTTYPE" = "Linux" ]]; then
     alias ls="ls -F --color=auto"
     alias l="ls --color=auto"
     alias ll="ls --color -l"
-    alias dirsize="du -h --max-depth=1 | sort -h"
+    alias dirsize="du -h --max-depth=1 | sort -h; df --human-readable ."
 fi
 
 ## shell functions
