@@ -611,6 +611,20 @@ is_ipv4() {
     fi
 }
 
+# return nonzero unless $1 contains only digits
+is_numeric() {
+    case "$1" in
+        "" | *[![:digit:]]* ) return 1;;
+    esac
+}
+
+# return nonzero unless $1 contains only hexadecimal digits
+is_hex() {
+    case "$1" in
+        "" | *[![:xdigit:]]* ) return 1;;
+    esac
+}
+
 ## Import machine-specific settings if available
 if [ -e ~/.zshrc_local ]; then
   source ~/.zshrc_local
