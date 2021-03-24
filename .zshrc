@@ -179,7 +179,7 @@ alias gcc="gcc -fdiagnostics-color=auto"
 # use highlight if it's available
 if _has highlight;
 then
-    alias cat="$(whence -p highlight) --out-format xterm256 --style moria --force --quiet"
+    alias cat="$(whence -p highlight) --out-format xterm256 --style moria --force --quiet --stdout"
     alias rcat=/bin/cat
     export LESSOPEN="| $(which highlight) %s --out-format xterm256 --quiet --force --style moria"
 fi
