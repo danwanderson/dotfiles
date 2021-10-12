@@ -515,8 +515,26 @@ validate_mac() {
     then
         return 0
     fi
+
     # 565ef7a5f8fd
     if [[ "${MAC}" =~ ^[0-9a-f]{12} ]];
+    then
+        return 0
+    fi
+
+    VALID=0
+    # 1:0:5e:0:0:fb
+    for bits in $(echo "${MAC}" | awk -F ':' '{print $1, $2, $3, $4, $5, $6}' | tr '[:upper:]' '[:lower:]')
+    do
+        if ! [[ "${bits}" =~ ^[0-9a-f]{1,2}$ ]];
+        then
+            return 1
+        else
+            VALID=$(( ${VALID} + 1 ))
+        fi
+    done
+
+    if [ ${VALID} -eq 6 ];
     then
         return 0
     fi
@@ -526,10 +544,36 @@ validate_mac() {
 }
 
 sanitize_mac() {
-    # translate e41a.2c00.f4f6 to standard-format
+    local MAC="${1}"
+    if ! validate_mac "${1}";
+    then
+        echo "${MAC} doesn't look like a valid MAC"
+        return
+    fi
+
+    # Set it to lower case - easier to deal with
+    local LOWER_MAC=$(echo ${MAC} | tr '[:upper:]' '[:lower:]')
+    # Handle 1:0:5e:0:0:fb or dc:a6:32:d5:d6:8a
+    local PADDED_MAC=""
+    if [[ "${LOWER_MAC}" =~ ^[0-9a-f]{1,2}:[0-9a-f]{1,2}:[0-9a-f]{1,2}:[0-9a-f]{1,2}:[0-9a-f]{1,2}:[0-9a-f]{1,2} ]];
+    then
+        for bits in $(echo "${LOWER_MAC}" | awk -F ':' '{print $1, $2, $3, $4, $5, $6}')
+        do
+            if [[ "${bits}" =~ ^[0-9a-f]$ ]];
+            then
+                PADDED_MAC="${PADDED_MAC}0${bits}"
+            else
+                PADDED_MAC="${PADDED_MAC}${bits}"
+            fi
+        done
+    else
+        # everything else (565e.f7a5.f8fd, 565ef7a5f8fd)
+        PADDED_MAC="${LOWER_MAC}"
+    fi
+
     # translate lowercase to uppercase, remove dots, print with colons between every 2 characters
-    local MAC=$(echo "${1}" | tr '[:lower:]' '[:upper:]' | sed -e 's/ //g' -e 's/\.//g' -e 's/://g' | awk -F '' '{printf ("%s:%s:%s:%s:%s:%s", $1$2, $3$4, $5$6, $7$8, $9$10, $11$12)}')
-    echo "${MAC}"
+    local CLEANMAC=$(echo "${PADDED_MAC}" | sed -e 's/ //g' -e 's/\.//g' -e 's/://g' | awk -F '' '{printf ("%s:%s:%s:%s:%s:%s", $1$2, $3$4, $5$6, $7$8, $9$10, $11$12)}')
+    echo "${CLEANMAC}" | tr '[:lower:]' '[:upper:]'
 }
 
 oui_search () {
@@ -623,6 +667,46 @@ is_hex() {
     case "$1" in
         "" | *[![:xdigit:]]* ) return 1;;
     esac
+}
+
+# Turn a MAC address into an EUI64 address
+# optional second argument is IPv6 prefix (defaults to fe80:)
+mac_to_eui64() {
+    local MAC="${1}"
+    local PREFIX="${2}"
+
+    if [ -z "${MAC}" ];
+    then
+        echo "Must supply MAC address"
+        return
+    fi
+
+    if ! validate_mac ${MAC};
+    then
+        echo "${MAC} doesn't look like a valid MAC address."
+        return
+    fi
+
+    # Make sure we have a standardized MAC format
+    CLEAN_MAC=$(sanitize_mac "${MAC}")
+
+    # Default prefix if none is supplied
+    if [ -z "${PREFIX}" ];
+    then
+        PREFIX="fe80:"
+    else
+        # Strip trailing ':' and '::/<whatever>'
+        PREFIX=$(echo "${PREFIX}" | sed -e 's/:$//' -e 's/::\/[0-9][0-9]*$//')
+    fi
+
+    # get bits 7 and 8
+    local FIRST=$(echo "${CLEAN_MAC}" | cut -d ':' -f 1)
+    # Flip bit 7
+    local NEWFIRST=$(printf %02x $((0x${FIRST} ^ 2)))
+    # assemble the rest of the EUI64 string
+    local EUI64=$(echo "${CLEAN_MAC}" | awk -F ':' '{print $2 ":" $3 "ff:fe" $4 ":" $5 $6}')
+    # put it all together and make lowercase
+    echo "${PREFIX}:${NEWFIRST}${EUI64}" | tr '[:upper:]' '[:lower:]'
 }
 
 ## Import machine-specific settings if available
