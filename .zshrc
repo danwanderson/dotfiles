@@ -206,9 +206,10 @@ then
     # if ansible isn't installed locally, use the container
     if ! _has ansible;
     then
-        alias ansible='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro -it danwanderson/ansible'
-        alias ansible-playbook='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro --entrypoint ansible-playbook -it danwanderson/ansible'
-        alias ansible-vault='docker run --rm -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro --entrypoint ansible-vault -it danwanderson/ansible'
+        alias ansible='docker run --rm -v ${PWD}:/home/ansible -v ${HOME}/.ssh:/home/ansible/.ssh:ro -it danwanderson/ansible'
+        alias ansible-playbook='docker run --rm -v ${PWD}:/home/ansible -v ${HOME}/.ssh:/home/ansible/.ssh:ro --entrypoint ansible-playbook -it danwanderson/ansible'
+        alias ansible-vault='docker run --rm -v ${PWD}:/home/ansible -v ${HOME}/.ssh:/home/ansible/.ssh:ro --entrypoint ansible-vault -it danwanderson/ansible'
+        alias ansible-galaxy='docker run --rm -v ${PWD}:/home/ansible -v ${HOME}/.ssh:/home/ansible/.ssh:ro --entrypoint ansible-galaxy -it danwanderson/ansible'
     fi
     # if Azure CLI isn't installed locally, use the container
     if ! _has az;
@@ -217,7 +218,7 @@ then
         alias azpwsh='docker run -it --rm  --entrypoint /usr/local/bin/pwsh -v ${HOME}:/root azuresdk/azure-powershell'
     fi
     # Jigdo container (for Debian images)
-    alias jigdo='docker run --rm -v ${PWD}:/root -it danwanderson/jigdo'
+    alias jigdo='docker run --rm -v ${PWD}:/home/jigdo -it danwanderson/jigdo'
     # If wget isn't installed locally, use the container
     if ! _has wget;
     then
