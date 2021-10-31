@@ -474,6 +474,21 @@ function install_omz() {
         git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
         git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
         git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+        popd
+        exec zsh
+    else
+        echo "Please install git first"
+    fi
+}
+
+function update_omz() {
+    if _has git;
+    then
+        cd ~/.oh-my-zsh && git pull
+        cd ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting && git pull
+        cd ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions && git pull
+        popd
+        exec zsh
     else
         echo "Please install git first"
     fi
