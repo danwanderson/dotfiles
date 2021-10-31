@@ -162,6 +162,8 @@ alias gen-ospf-key="dd if=/dev/urandom count=1024 | shasum"
 # Bulk rename of logs from RoyalTSX
 # For some reason, they don't let you change the file suffix
 alias rename_logs="autoload zmv;zmv -W '*.log' '*.txt'"
+alias bu="brew update && brew upgrade && brew upgrade --cask"
+alias au="sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y"
 
 # Use colordiff if it's available
 if _has colordiff;
