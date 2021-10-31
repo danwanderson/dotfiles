@@ -471,25 +471,9 @@ function preexec {
 function install_omz() {
     if _has git;
     then
-        STARTDIR="${PWD}"
-        if ! [ -d ~/.oh-my-zsh ]; then
-            git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
-        else
-            cd ~/.oh-my-zsh && git pull
-        fi
-        # Reload to make sure we have the right variables set
-        exec zsh
-        if ! [ -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]; then
-            git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-        else
-            cd ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting && git pull
-        fi
-        if ! [ -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]; then
-            git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-        else
-            cd ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions && git pull
-            cd "${STARTDIR}"
-        fi
+        git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+        git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
     else
         echo "Please install git first"
     fi
