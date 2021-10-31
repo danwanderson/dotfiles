@@ -486,6 +486,7 @@ function update_omz() {
         cd ~/.oh-my-zsh && git pull
         cd ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting && git pull
         cd ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions && git pull
+        cd ~
         exec zsh
     else
         echo "Please install git first"
