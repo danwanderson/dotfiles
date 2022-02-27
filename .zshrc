@@ -151,6 +151,8 @@ _try() {
   return $( eval $* &>/dev/null )
 }
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 alias ipcalc="sipcalc -4"
 # screen replaced by tmux in my day-to-day
 # screen - attach here NOW and disconnect any other sessions
