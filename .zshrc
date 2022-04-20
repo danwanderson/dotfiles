@@ -151,10 +151,16 @@ _try() {
   return $( eval $* &>/dev/null )
 }
 
-if [ -d /opt/homebrew ];
+if [ -x /opt/homebrew/bin/brew ];
 then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
+
+if [ -x /Users/${USER}/homebrew/bin/brew ];
+then
+    eval "$(/Users/${USER}/homebrew/bin/brew shellenv)"
+fi
+
 
 alias ipcalc="sipcalc -4"
 # screen replaced by tmux in my day-to-day
