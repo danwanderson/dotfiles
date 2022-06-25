@@ -232,6 +232,12 @@ then
     then
         alias go="docker run --rm -it danwanderson/go"
     fi
+
+    # if Telnet isn't installed locally, use the container
+    if ! _has telnet;
+    then
+        alias telnet="docker run --rm -it danwanderson/telnet"
+    fi
     # if ansible isn't installed locally, use the container
     if ! _has ansible;
     then
