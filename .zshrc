@@ -743,6 +743,16 @@ mac_to_eui64() {
     echo "${PREFIX}:${NEWFIRST}${EUI64}" | tr '[:upper:]' '[:lower:]'
 }
 
+expand_ipv6() {
+    #if ! _has sipcalc;
+    #then
+    #    echo "please install sipcalc"
+    #    return
+    #fi
+    #sipcalc -6 ${1} | grep Expanded | cut -d '-' -f 2 | sed -e 's/ //g'
+    echo ${1} | awk '{if(NF<8){inner = "0"; for(missing = (8 - NF);missing>0;--missing){inner = inner ":0"}; if($2 == ""){$2 = inner} else if($3 == ""){$3 = inner} else if($4 == ""){$4 = inner} else if($5 == ""){$5 = inner} else if($6 == ""){$6 = inner} else if($7 == ""){$7 = inner}}; print $0}' FS=":" OFS=":" | awk '{for(i=1;i<9;++i){len = length($(i)); if(len < 1){$(i) = "0000"} else if(len < 2){$(i) = "000" $(i)} else if(len < 3){$(i) = "00" $(i)} else if(len < 4){$(i) = "0" $(i)} }; print $0}' FS=":" OFS=":"
+}
+
 ## Import machine-specific settings if available
 if [ -e ~/.zshrc_local ]; then
   source ~/.zshrc_local
