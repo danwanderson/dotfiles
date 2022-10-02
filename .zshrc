@@ -173,6 +173,7 @@ alias gen-ospf-key="dd if=/dev/urandom count=1024 | shasum"
 # Bulk rename of logs from RoyalTSX
 # For some reason, they don't let you change the file suffix
 alias rename_logs="autoload zmv;zmv -W '*.log' '*.txt'"
+alias install_tpm="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
 
 # Add homebrew update if availalble
 if _has brew;
