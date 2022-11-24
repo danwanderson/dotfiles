@@ -16,7 +16,7 @@ export ZSH="${HOME}/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="fino-time"
+ZSH_THEME="fino-time-dwa"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -174,6 +174,7 @@ alias gen-ospf-key="dd if=/dev/urandom count=1024 | shasum"
 # For some reason, they don't let you change the file suffix
 alias rename_logs="autoload zmv;zmv -W '*.log' '*.txt'"
 alias install_tpm="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
+alias install_theme="cp ~/dotfiles/fino-time-dwa.zsh-theme ~/.oh-my-zsh/custom/themes"
 
 # Add homebrew update if availalble
 if _has brew;
