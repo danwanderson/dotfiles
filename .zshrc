@@ -175,7 +175,7 @@ alias gen-ospf-key="dd if=/dev/urandom count=1024 | shasum"
 alias rename_logs="autoload zmv;zmv -W '*.log' '*.txt'"
 alias install_tpm="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
 alias install_theme="cp ~/dotfiles/fino-time-dwa.zsh-theme ~/.oh-my-zsh/custom/themes"
-alias install_vundle="git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim"
+alias setup_vim="git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && vim +PluginInstall +qall"
 
 # Add homebrew update if availalble
 if _has brew;
