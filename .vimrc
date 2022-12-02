@@ -27,6 +27,7 @@ Plugin 'vim-airline/vim-airline-themes'
 "Plugin 'morhetz/gruvbox'
 Plugin 'chrisbra/csv.vim'
 Plugin 'dense-analysis/ale'
+Plugin 'bling/vim-bufferline'
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
