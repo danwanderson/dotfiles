@@ -59,6 +59,8 @@ filetype plugin indent on    " required
 
 let g:airline_theme='badwolf'
 
+let g:airline_powerline_fonts = 1
+
 syntax enable
 "colorscheme elflord
 "set bg=dark
