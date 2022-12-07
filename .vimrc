@@ -62,7 +62,7 @@ let g:airline_theme='badwolf'
 "let g:airline_powerline_fonts = 1
 
 syntax enable
-"colorscheme elflord
+colorscheme elflord
 "set bg=dark
 "set termguicolors
 set noautoindent
