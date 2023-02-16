@@ -73,7 +73,7 @@ do
     fi
 
     # lazy attempt to install
-    if [[ ${DEBIAN} = 1 ]];
+    if ! _has "${program}" && [[ ${DEBIAN} = 1 ]];
     then
         if [[ ${program} =~ "fdfind" ]];
         then
@@ -81,7 +81,7 @@ do
         else
             sudo apt install -y ${program}
         fi
-    elif [[ ${OSX} = 1 ]];
+    elif ! _has "${program}" && [[ ${OSX} = 1 ]];
     then
         brew install ${program}
     fi
