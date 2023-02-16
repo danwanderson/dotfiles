@@ -39,7 +39,12 @@ do
     # lazy attempt to install
     if [[ ${DEBIAN} = 1 ]];
     then
-        sudo apt install -y ${program}
+        if [[ ${program} =~ "fdfind" ]];
+        then
+            sudo apt install -y fd-find
+        else
+            sudo apt install -y ${program}
+        fi
     elif [[ ${OSX} = 1 ]];
     then
         brew install ${program}
