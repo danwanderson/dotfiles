@@ -67,11 +67,11 @@ then
 fi
 
 install -v fino-time-dwa.zsh-theme ~/.oh-my-zsh/custom/themes
-FZF=$(which fzf)
+FZF=$(whence -p fzf)
 
 if ! [[ $(grep "fzf" ~/.vimrc_local) ]];
 then
-    /bin/cat .vimrc_local | sed -e "s/FZF_PLACEHOLDER/${FZF}/" >> ~/.vimrc_local
+    /bin/cat .vimrc_local | sed -e "s,FZF_PLACEHOLDER,${FZF}," >> ~/.vimrc_local
 fi
 
 if ! [[ -d ~/.vim/bundle/Vundle.vim ]];
