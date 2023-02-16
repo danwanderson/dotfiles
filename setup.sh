@@ -36,6 +36,15 @@ do
         program="fdfind"
     fi
 
+    # lazy attempt to install
+    if [[ ${DEBIAN} = 1 ]];
+    then
+        sudo apt install -y ${program}
+    elif [[ ${OSX} = 1 ]];
+    then
+        brew install ${program}
+    fi
+
     if ! _has "${program}";
     then
         echo "${program} not found"
