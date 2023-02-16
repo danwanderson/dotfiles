@@ -280,7 +280,12 @@ export LESS="-R"
 export GREP_COLORS="mt=34;42"
 
 # FZF default
-export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
+if _has fdfind;
+then
+    export FZF_DEFAULT_COMMAND='fdfind --type f --strip-cwd-prefix'
+else
+    export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
+fi
 
 # HOSTTYPE = { Linux | OpenBSD | SunOS | etc. }
 if which uname &>/dev/null; then

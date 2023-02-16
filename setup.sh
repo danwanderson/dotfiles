@@ -1,5 +1,23 @@
 #!/usr/bin/env zsh
 
+DEBIAN=0
+OSX=0
+
+if [[ -f /etc/debian_version ]];
+then
+    DEBIAN=1
+fi
+
+if [[ $(uname) =~ "Darwin" ]];
+then
+    OSX=1
+fi
+
+if [[ ${DEBIAN} = 0 ]] && [[ ${OSX} = 0 ]];
+then
+    echo "Unknown target system; this script may not work correctly"
+fi
+
 # requirements
 REQUIREMENTS=(fzf fd zsh git vim)
 
@@ -11,12 +29,17 @@ FAIL=0
 
 for program in ${(@)REQUIREMENTS};
 do
+    if [[ ${DEBIAN} = 1 ]] && [[ ${program} =~ "fd" ]];
+    then
+        program="fdfind"
+    fi
+
     if ! _has "${program}";
     then
         echo "${program} not found"
         FAIL=1
     else
-        echo "${program} OK" 
+        echo "${program} OK"
     fi
 done
 
