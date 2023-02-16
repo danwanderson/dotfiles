@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+set -eou pipefail
+
 DEBIAN=0
 OSX=0
 
@@ -49,13 +51,29 @@ then
     exit 1
 fi
 
-git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-cp fino-time-dwa.zsh-theme ~/.oh-my-zsh/custom/themes
+if ! [[ -d ~/.oh-my-zsh ]];
+then
+    git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
+fi
+
+if ! [[ -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]];
+then
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+fi
+
+if ! [[ -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]];
+then
+    git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+fi
+
+cp -f fino-time-dwa.zsh-theme ~/.oh-my-zsh/custom/themes
 FZF=$(which fzf)
-cp ~/.vimrc_local ~/.vimrc_local.bak
+cp -f ~/.vimrc_local ~/.vimrc_local.bak
 /bin/cat .vimrc_local | sed -e "s/FZF_PLACEHOLDER/${FZF}/" ~/.vimrc_local
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && vim +PluginInstall +qall
+
+if ! [[ -d ~/.vim/bundle/Vundle.vim ]];
+then
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && vim +PluginInstall +qall
+fi
 
 echo "Please re-launch your shell with 'exec zsh'"
