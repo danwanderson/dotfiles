@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-set -eou pipefail
+set -euo pipefail
 
 DEBIAN=0
 OSX=0
