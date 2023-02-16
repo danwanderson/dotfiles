@@ -53,8 +53,9 @@ git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 cp fino-time-dwa.zsh-theme ~/.oh-my-zsh/custom/themes
-exec zsh
 FZF=$(which fzf)
 cp ~/.vimrc_local ~/.vimrc_local.bak
 /bin/cat .vimrc_local | sed -e "s/FZF_PLACEHOLDER/${FZF}/" ~/.vimrc_local
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && vim +PluginInstall +qall
+
+echo "Please re-launch your shell with 'exec zsh'"
