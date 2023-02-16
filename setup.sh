@@ -66,7 +66,7 @@ then
     git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 fi
 
-install --backup --compare fino-time-dwa.zsh-theme ~/.oh-my-zsh/custom/themes
+install -b -C fino-time-dwa.zsh-theme ~/.oh-my-zsh/custom/themes
 FZF=$(whence -p fzf)
 
 if ! [[ $(grep "fzf" ~/.vimrc_local) ]];
