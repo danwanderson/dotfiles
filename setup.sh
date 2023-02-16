@@ -4,6 +4,41 @@ set -euo pipefail
 
 DEBIAN=0
 OSX=0
+INSTALL=0
+
+while (( $# ));
+do
+    case "$1" in
+        --) # end argument parsing
+            shift
+            break
+            ;;
+        -h|--help)
+            usage
+            exit
+            ;;
+        -d|--dotfiles)
+            INSTALL=1
+            shift
+            ;;
+        --debug)
+            set -x
+            shift
+            ;;
+        -*|--*=) # unsupported flags
+            echo "Error: unsupported flag $1" >&2
+            exit 2
+            ;;
+        *) # Preserve positional arguments
+            PARAMS="$PARAMS $1"
+            shift
+            ;;
+    esac
+done
+
+# Set positional arguments in their proper place
+eval set -- "$PARAMS"
+
 
 if [[ -f /etc/debian_version ]];
 then
@@ -97,6 +132,15 @@ fi
 if ! [[ -d ~/.vim/bundle/Vundle.vim ]];
 then
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && vim +PluginInstall +qall
+fi
+
+if [[ ${INSTALL} = 1 ]];
+then
+    FILES=(.fdignore .vimrc .tmux.conf .zshrc)
+    for file in ${(@)FILES};
+    do
+        ln -sf ${file} ~/${file}
+    done
 fi
 
 echo "Please re-launch your shell with 'exec zsh'"
