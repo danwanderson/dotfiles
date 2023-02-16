@@ -140,7 +140,7 @@ then
     FILES=(.fdignore .vimrc .tmux.conf .zshrc)
     for file in ${(@)FILES};
     do
-        ln -sf ${file} ~/${file}
+        ln -sf ${PWD}/${file} ~/${file}
     done
 fi
 
