@@ -282,7 +282,12 @@ export GREP_COLORS="mt=34;42"
 # FZF default
 if _has fdfind;
 then
-    export FZF_DEFAULT_COMMAND='fdfind --type f --strip-cwd-prefix'
+    if [[ $(fdfind --version) =~ "fdfind 8.2.1" ]];
+    then
+        export FZF_DEFAULT_COMMAND='fdfind --type f'
+    else
+        export FZF_DEFAULT_COMMAND='fdfind --type f --strip-cwd-prefix'
+    fi
 else
     export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
 fi

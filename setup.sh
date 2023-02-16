@@ -127,6 +127,10 @@ fi
 
 if ! [[ $(grep "fzf" ~/.vimrc_local) ]];
 then
+    if [[ ${DEBIAN} = 1 ]];
+    then
+        echo "source /usr/share/doc/fzf/examples/fzf.vim" >> ~/.vimrc_local
+    fi
     /bin/cat .vimrc_local | sed -e "s,FZF_PLACEHOLDER,${FZF}," >> ~/.vimrc_local
 fi
 
