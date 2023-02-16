@@ -83,6 +83,12 @@ fi
 install -b -C fino-time-dwa.zsh-theme ~/.oh-my-zsh/custom/themes
 FZF=$(whence -p fzf)
 
+# stupid hack to make sure the file exists
+if ! [[ -f ~/.vimrc_local ]];
+then
+    touch ~/.vimrc_local
+fi
+
 if ! [[ $(grep "fzf" ~/.vimrc_local) ]];
 then
     /bin/cat .vimrc_local | sed -e "s,FZF_PLACEHOLDER,${FZF}," >> ~/.vimrc_local
