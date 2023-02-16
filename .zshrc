@@ -279,6 +279,9 @@ export LESS="-R"
 #export GREP_OPTIONS='--color=auto'
 export GREP_COLORS="mt=34;42"
 
+# FZF default
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
+
 # HOSTTYPE = { Linux | OpenBSD | SunOS | etc. }
 if which uname &>/dev/null; then
   HOSTTYPE=`uname -s`

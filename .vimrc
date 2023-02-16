@@ -81,3 +81,5 @@ set indentexpr=
 
 "highlight OverLength ctermbg=darkred ctermfg=white guibg=FFD9D9
 "match OverLength /\%>80v.\+/
+
+source ~/.vimrc_local
