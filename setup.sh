@@ -5,6 +5,7 @@ set -euo pipefail
 DEBIAN=0
 OSX=0
 INSTALL=0
+PARAMS=""
 
 while (( $# ));
 do
