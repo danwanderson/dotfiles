@@ -66,10 +66,13 @@ then
     git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 fi
 
-cp -f fino-time-dwa.zsh-theme ~/.oh-my-zsh/custom/themes
+install -v fino-time-dwa.zsh-theme ~/.oh-my-zsh/custom/themes
 FZF=$(which fzf)
-cp -f ~/.vimrc_local ~/.vimrc_local.bak
-/bin/cat .vimrc_local | sed -e "s/FZF_PLACEHOLDER/${FZF}/" ~/.vimrc_local
+
+if [[ $(grep "fzf" ~/.vimrc_local) ]];
+then
+    /bin/cat .vimrc_local | sed -e "s/FZF_PLACEHOLDER/${FZF}/" >> ~/.vimrc_local
+fi
 
 if ! [[ -d ~/.vim/bundle/Vundle.vim ]];
 then
