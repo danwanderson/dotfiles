@@ -28,6 +28,8 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'chrisbra/csv.vim'
 Plugin 'dense-analysis/ale'
 Plugin 'bling/vim-bufferline'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
