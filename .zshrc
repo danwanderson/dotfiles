@@ -71,12 +71,18 @@ DISABLE_UPDATE_PROMPT="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+if [[ -d ~/.oh-my-zsh/custom/plugins/zsh-autopair ]];
+then
+    source ~/.oh-my-zsh/custom/plugins/zsh-autopair/autopair.zsh
+    autopair-init
+fi
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mercurial zsh-autosuggestions zsh-syntax-highlighting colored-man-pages fd fzf zsh-autopair)
+plugins=(git mercurial zsh-autosuggestions zsh-syntax-highlighting colored-man-pages fd fzf)
 
 if [ -f $ZSH/oh-my-zsh.sh ];
 then
@@ -161,11 +167,6 @@ then
     eval "$(/Users/${USER}/homebrew/bin/brew shellenv)"
 fi
 
-if [[ -d ~/.oh-my-zsh/custom/plugins/zsh-autopair ]];
-then
-    source ~/.oh-my-zsh/custom/plugins/zsh-autopair/autopair.zsh
-    autopair-init
-fi
 
 alias ipcalc="sipcalc -4"
 # screen replaced by tmux in my day-to-day
