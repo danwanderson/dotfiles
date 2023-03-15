@@ -76,7 +76,7 @@ DISABLE_UPDATE_PROMPT="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mercurial zsh-autosuggestions zsh-syntax-highlighting colored-man-pages)
+plugins=(git mercurial zsh-autosuggestions zsh-syntax-highlighting colored-man-pages fd fzf zsh-autopair)
 
 if [ -f $ZSH/oh-my-zsh.sh ];
 then
@@ -161,6 +161,11 @@ then
     eval "$(/Users/${USER}/homebrew/bin/brew shellenv)"
 fi
 
+if [[ -d ~/.oh-my-zsh/custom/plugins/zsh-autopair ]];
+then
+    source ~/.oh-my-zsh/custom/plugins/zsh-autopair/autopair.zsh
+    autopair-init
+fi
 
 alias ipcalc="sipcalc -4"
 # screen replaced by tmux in my day-to-day
@@ -507,6 +512,7 @@ function install_omz() {
         git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
         git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
         git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+        git clone https://github.com/hlissner/zsh-autopair.git ~/.oh-my-zsh/custom/plugins/zsh-autopair
         exec zsh
     else
         echo "Please install git first"
@@ -519,6 +525,7 @@ function update_omz() {
         cd ~/.oh-my-zsh && git pull
         cd ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting && git pull
         cd ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions && git pull
+        cd ~/.oh-my-zsh/custom/plugins/zsh-autopair && git pull
         cd ~
         exec zsh
     else
