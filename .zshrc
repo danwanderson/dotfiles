@@ -190,6 +190,12 @@ then
     alias bu="brew update && brew upgrade && brew upgrade --cask"
 fi
 
+# if gawk is avaliable, use that
+if _has gawk;
+then
+    alias awk=gawk
+fi
+
 # Add apt update if availalble
 if _has apt;
 then
@@ -227,7 +233,7 @@ alias tmux="$(whence -p tmux) new-session -AD -s 0"
 alias screen=tmux
 
 # Update IEEE OUI file locally
-alias update_oui="cd ~;curl -O http://standards-oui.ieee.org/oui/oui.txt"
+alias update_oui="cd ~;curl -O https://standards-oui.ieee.org/oui/oui.txt"
 
 # Check to see if we have Docker installed
 if _has docker;
@@ -660,7 +666,7 @@ oui_search () {
 
     if ! [ -z "${OUI}" ];
     then
-        curl --silent http://standards-oui.ieee.org/oui/oui.txt | grep "${OUI}"
+        curl --silent https://standards-oui.ieee.org/oui/oui.txt | grep "${OUI}"
     else
         echo "No MAC address supplied or an invalid interface was specified"
         return
