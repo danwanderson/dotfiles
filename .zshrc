@@ -183,6 +183,7 @@ alias rename_logs="autoload zmv;zmv -W '*.log' '*.txt'"
 alias install_tpm="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
 alias install_theme="cp ~/dotfiles/fino-time-dwa.zsh-theme ~/.oh-my-zsh/custom/themes"
 alias setup_vim="git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && vim +PluginInstall +qall"
+alias update_vim="vim +PluginUpdate +qall"
 
 # Add homebrew update if availalble
 if _has brew;
