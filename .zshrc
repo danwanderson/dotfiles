@@ -296,15 +296,24 @@ export GREP_COLORS="mt=34;42"
 # FZF default
 if _has fdfind;
 then
-    if [[ $(fdfind --version) =~ "8.2.1" ]];
-    then
-        export FZF_DEFAULT_COMMAND='fdfind --type f'
-    else
-        export FZF_DEFAULT_COMMAND='fdfind --type f --strip-cwd-prefix'
-    fi
+    FD_CMD=fdfind
+elif _has fd-find;
+then
+    FD_CMD=fd-find
 else
-    export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
+    FD_CMD=fd
 fi
+
+if [[ $(${FD_CMD} --version) =~ "8.2.1" ]];
+then
+    export FZF_DEFAULT_COMMAND='${FD_CMD} --type f'
+else
+    export FZF_DEFAULT_COMMAND='${FD_CMD} --type f --strip-cwd-prefix'
+fi
+
+function fcd() {
+    cd "$(${FD_CMD} --type d | fzf)"  
+}
 
 # HOSTTYPE = { Linux | OpenBSD | SunOS | etc. }
 if which uname &>/dev/null; then
