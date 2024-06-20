@@ -139,12 +139,23 @@ then
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && vim +PluginInstall +qall
 fi
 
+if ! [[ -d ~/.vim/colors ]];
+then
+    mkdir ~/.vim/colors
+    cp elflord_old.vim ~/.vim/colors
+fi
+ 
 if [[ ${INSTALL} = 1 ]];
 then
     FILES=(.fdignore .vimrc .tmux.conf .zshrc)
     for file in ${(@)FILES};
     do
-        ln -sfr ${file} ~/${file}
+        if _has gln;
+        then
+            gln -sfr ${file} ~/${file}
+        else
+            ln -sfr ${file} ~/${file}
+        fi
     done
 fi
 
