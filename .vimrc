@@ -30,6 +30,7 @@ Plugin 'dense-analysis/ale'
 Plugin 'bling/vim-bufferline'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
+Bundle 'rodnaph/vim-color-schemes'
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
