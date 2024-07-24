@@ -312,7 +312,7 @@ else
 fi
 
 function fcd() {
-    cd "$(${FD_CMD} --type d | fzf)"  
+    cd "$(${FD_CMD} --type d | fzf)"
 }
 
 # HOSTTYPE = { Linux | OpenBSD | SunOS | etc. }
@@ -585,6 +585,12 @@ validate_mac() {
         return 0
     fi
 
+    # 56-5e-f7-a5-f8-fd
+    if [[ "${MAC}" =~ ^[0-9a-f]{2}-[0-9a-f]{2}-[0-9a-f]{2}-[0-9a-f]{2}-[0-9a-f]{2}-[0-9a-f]{2} ]];
+    then
+        return 0
+    fi
+
     # 565e.f7a5.f8fd
     if [[ "${MAC}" =~ ^[0-9a-f]{4}\.[0-9a-f]{4}\.[0-9a-f]{4} ]];
     then
@@ -633,6 +639,18 @@ sanitize_mac() {
     if [[ "${LOWER_MAC}" =~ ^[0-9a-f]{1,2}:[0-9a-f]{1,2}:[0-9a-f]{1,2}:[0-9a-f]{1,2}:[0-9a-f]{1,2}:[0-9a-f]{1,2} ]];
     then
         for bits in $(echo "${LOWER_MAC}" | awk -F ':' '{print $1, $2, $3, $4, $5, $6}')
+        do
+            if [[ "${bits}" =~ ^[0-9a-f]$ ]];
+            then
+                PADDED_MAC="${PADDED_MAC}0${bits}"
+            else
+                PADDED_MAC="${PADDED_MAC}${bits}"
+            fi
+        done
+    # Handle 1-0-5e-0-0-fb or dc-a6-32-d5-d6-8a
+    elif [[ "${LOWER_MAC}" =~ ^[0-9a-f]{1,2}-[0-9a-f]{1,2}-[0-9a-f]{1,2}-[0-9a-f]{1,2}-[0-9a-f]{1,2}-[0-9a-f]{1,2} ]];
+    then
+        for bits in $(echo "${LOWER_MAC}" | awk -F '-' '{print $1, $2, $3, $4, $5, $6}')
         do
             if [[ "${bits}" =~ ^[0-9a-f]$ ]];
             then
