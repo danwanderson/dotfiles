@@ -230,6 +230,13 @@ then
     export LESSOPEN="| $(which highlight) %s --out-format xterm256 --quiet --force --style moria"
 fi
 
+# use bat if a available 
+if _has bat;
+then
+    alias cat=bat
+    export BAT_THEME="Coldark-Dark"
+fi
+
 alias tmux="$(whence -p tmux) new-session -AD -s 0"
 alias screen=tmux
 
