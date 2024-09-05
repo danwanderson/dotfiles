@@ -197,8 +197,14 @@ then
     alias awk=gawk
 fi
 
+# if gsed is avaliable, use that
+if _has gsed;
+then
+    alias sed=gsed
+fi
+
 # Add apt update if availalble
-if _has apt;
+if _try apt;
 then
     alias au="sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y"
 fi
@@ -230,15 +236,18 @@ then
     export LESSOPEN="| $(which highlight) %s --out-format xterm256 --quiet --force --style moria"
 fi
 
-# use bat if a available 
+# use bat if a available
 if _has bat;
 then
     alias cat=bat
     export BAT_THEME="Coldark-Dark"
 fi
 
-alias tmux="$(whence -p tmux) new-session -AD -s 0"
-alias screen=tmux
+if _has tmux;
+then
+    alias tmux="$(whence -p tmux) new-session -AD -s 0"
+    alias screen=tmux
+fi
 
 # Update IEEE OUI file locally
 alias update_oui="cd ~;curl -O https://standards-oui.ieee.org/oui/oui.txt"
@@ -341,10 +350,6 @@ if [[ "$HOSTTYPE" = "Darwin" ]]; then
     if [ -f /usr/local/bin/git ];
     then
         alias git='/usr/local/bin/git'
-    fi
-    if [ -f /usr/local/bin/gawk ];
-    then
-        alias awk='/usr/local/bin/gawk'
     fi
     alias dirsize="du -h -d 1 | sort -h;df -hP ."
 fi
