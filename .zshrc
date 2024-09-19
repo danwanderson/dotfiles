@@ -38,6 +38,12 @@ ZSH_THEME="fino-time-dwa"
 #DISABLE_UPDATE_PROMPT="true"
 zstyle ':omz:update' mode auto
 
+#zstyle ':omz:update' verbose default # default update prompt
+
+zstyle ':omz:update' verbose minimal # only few lines
+
+#zstyle ':omz:update' verbose silent # only errors
+
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
 
