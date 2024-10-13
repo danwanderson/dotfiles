@@ -832,6 +832,11 @@ expand_ipv6() {
 
 export BAT_THEME="Dracula"
 
+# add pipx to path if it's installed
+if [ -d "${HOME}/.local/bin" ]; then
+    export PATH="${HOME}/.local/bin:$PATH"
+fi
+
 ## Import machine-specific settings if available
 if [ -e ~/.zshrc_local ]; then
   source ~/.zshrc_local

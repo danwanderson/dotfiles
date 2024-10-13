@@ -11,3 +11,6 @@
 #echo ""
 #uptime
 #echo ""
+
+# Created by `pipx` on 2024-10-13 19:46:58
+export PATH="$PATH:/Users/dwa/.local/bin"
