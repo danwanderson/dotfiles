@@ -89,7 +89,7 @@ fi
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mercurial zsh-autosuggestions zsh-syntax-highlighting colored-man-pages fzf)
+plugins=(git mercurial zsh-autosuggestions zsh-syntax-highlighting colored-man-pages fzf cp)
 
 if [ -f $ZSH/oh-my-zsh.sh ];
 then
@@ -210,7 +210,7 @@ then
 fi
 
 # Add apt update if availalble
-if _try apt;
+if _try apt --help;
 then
     alias au="sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y"
 fi
