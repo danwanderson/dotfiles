@@ -89,7 +89,7 @@ fi
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mercurial zsh-autosuggestions zsh-syntax-highlighting colored-man-pages fzf cp)
+plugins=(git mercurial zsh-autosuggestions zsh-syntax-highlighting colored-man-pages fzf z zsh-interactive-cd cp)
 
 if [ -f $ZSH/oh-my-zsh.sh ];
 then
@@ -174,8 +174,10 @@ then
     eval "$(/Users/${USER}/homebrew/bin/brew shellenv)"
 fi
 
+if _has sipcalc; then
+    alias ipcalc="sipcalc -4"
+fi
 
-alias ipcalc="sipcalc -4"
 # screen replaced by tmux in my day-to-day
 # screen - attach here NOW and disconnect any other sessions
 #alias screen="/usr/bin/screen -D -R"
