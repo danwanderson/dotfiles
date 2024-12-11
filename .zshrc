@@ -339,6 +339,15 @@ function fcd() {
     cd "$(${FD_CMD} --type d | fzf)"
 }
 
+function fcd1() {
+    cd "$(${FD_CMD} --type d --max-depth 1 | fzf)"
+}
+
+if _has eza; then
+    alias els="eza"
+    alias ell="eza --git --long --all --header --time-style=long-iso"
+fi
+
 # HOSTTYPE = { Linux | OpenBSD | SunOS | etc. }
 if which uname &>/dev/null; then
   HOSTTYPE=`uname -s`
