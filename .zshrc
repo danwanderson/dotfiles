@@ -346,6 +346,8 @@ function fcd1() {
 if _has eza; then
     alias els="eza"
     alias ell="eza --git --long --all --header --time-style=long-iso"
+    alias elt="eza --git --long --tree --all --header --time-style=long-iso"
+    alias elm="eza --git --long --all --header --time-style=long-iso --modified"
 fi
 
 # HOSTTYPE = { Linux | OpenBSD | SunOS | etc. }
