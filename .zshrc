@@ -347,8 +347,8 @@ if _has eza; then
     alias els="eza"
     alias ela="eza --git --long --all --header --time-style=long-iso --icons"
     alias ell="eza --git --long --header --time-style=long-iso --icons"
-    alias elt="eza --git --long --tree --all --header --time-style=long-iso --icons"
-    alias elm="eza --git --long --all --header --time-style=long-iso --modified --icons"
+    alias elt="eza --git --long --tree --header --time-style=long-iso --icons"
+    alias elm="eza --git --long --header --time-style=long-iso --modified --icons"
 fi
 
 # HOSTTYPE = { Linux | OpenBSD | SunOS | etc. }
