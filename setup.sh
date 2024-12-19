@@ -147,16 +147,21 @@ fi
  
 if [[ ${INSTALL} = 1 ]];
 then
+    if _has gln;
+    then
+        LN=gln
+    else
+        LN=ln
+    fi
     FILES=(.fdignore .vimrc .tmux.conf .zshrc)
     for file in ${(@)FILES};
     do
-        if _has gln;
-        then
-            gln -sfr ${file} ~/${file}
-        else
-            ln -sfr ${file} ~/${file}
-        fi
+        ${LN} -sfr ${file} ~/${file}
     done
+    if _has bat;
+    then
+        ${LN} -sfr bat_config $(bat --config-file);
+    fi
 fi
 
 echo "Please re-launch your shell with 'exec zsh'"
