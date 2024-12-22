@@ -345,10 +345,19 @@ function fcd1() {
 
 if _has eza; then
     alias els="eza"
-    alias ela="eza --git --long --all --header --time-style=long-iso --icons"
-    alias ell="eza --git --long --header --time-style=long-iso --icons"
-    alias elt="eza --git --long --tree --header --time-style=long-iso --icons"
-    alias elm="eza --git --long --header --time-style=long-iso --modified --icons"
+    if $(eza --version | grep "+git" &>/dev/null);
+    then
+        # built without git support
+        alias ela="eza --long --all --header --time-style=long-iso --icons"
+        alias ell="eza --long --header --time-style=long-iso --icons"
+        alias elt="eza --long --tree --header --time-style=long-iso --icons"
+        alias elm="eza --long --header --time-style=long-iso --modified --icons"
+    else
+        alias ela="eza --git --long --all --header --time-style=long-iso --icons"
+        alias ell="eza --git --long --header --time-style=long-iso --icons"
+        alias elt="eza --git --long --tree --header --time-style=long-iso --icons"
+        alias elm="eza --git --long --header --time-style=long-iso --modified --icons"
+    fi
 fi
 
 # HOSTTYPE = { Linux | OpenBSD | SunOS | etc. }
