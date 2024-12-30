@@ -300,6 +300,8 @@ then
     then
         alias wget='docker run -it --rm --entrypoint /usr/bin/wget -v ${PWD}:/data -w="/data/" inutano/wget'
     fi
+
+    alias docker-autocompose='docker run --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/red5d/docker-autocompose'
 fi
 
 # OSX
