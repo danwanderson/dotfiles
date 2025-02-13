@@ -264,15 +264,15 @@ alias update_oui="cd ~;curl -O https://standards-oui.ieee.org/oui/oui.txt"
 if _has docker;
 then
     # If powershell isn't installed locally, use the container
-    if ! _has pwsh;
-    then
-        alias pwsh="docker run --rm -it danwanderson/powershell"
-    fi
+    # if ! _has pwsh;
+    # then
+    #     alias pwsh="docker run --rm -it danwanderson/powershell"
+    # fi
     # If Go isn't installed locally, use the container
-    if ! _has go;
-    then
-        alias go="docker run --rm -it danwanderson/go"
-    fi
+    # if ! _has go;
+    # then
+    #     alias go="docker run --rm -it danwanderson/go"
+    # fi
 
     # if Telnet isn't installed locally, use the container
     if ! _has telnet;
@@ -280,19 +280,19 @@ then
         alias telnet="docker run --rm -it danwanderson/telnet"
     fi
     # if ansible isn't installed locally, use the container
-    if ! _has ansible;
-    then
-        alias ansible='docker run --rm -v ${PWD}:/home/ansible -v ${HOME}/.ssh:/home/ansible/.ssh:ro -it danwanderson/ansible'
-        alias ansible-playbook='docker run --rm -v ${PWD}:/home/ansible -v ${HOME}/.ssh:/home/ansible/.ssh:ro --entrypoint ansible-playbook -it danwanderson/ansible'
-        alias ansible-vault='docker run --rm -v ${PWD}:/home/ansible -v ${HOME}/.ssh:/home/ansible/.ssh:ro --entrypoint ansible-vault -it danwanderson/ansible'
-        alias ansible-galaxy='docker run --rm -v ${PWD}:/home/ansible -v ${HOME}/.ssh:/home/ansible/.ssh:ro --entrypoint ansible-galaxy -it danwanderson/ansible'
-    fi
+    # if ! _has ansible;
+    # then
+    #     alias ansible='docker run --rm -v ${PWD}:/home/ansible -v ${HOME}/.ssh:/home/ansible/.ssh:ro -it danwanderson/ansible'
+    #     alias ansible-playbook='docker run --rm -v ${PWD}:/home/ansible -v ${HOME}/.ssh:/home/ansible/.ssh:ro --entrypoint ansible-playbook -it danwanderson/ansible'
+    #     alias ansible-vault='docker run --rm -v ${PWD}:/home/ansible -v ${HOME}/.ssh:/home/ansible/.ssh:ro --entrypoint ansible-vault -it danwanderson/ansible'
+    #     alias ansible-galaxy='docker run --rm -v ${PWD}:/home/ansible -v ${HOME}/.ssh:/home/ansible/.ssh:ro --entrypoint ansible-galaxy -it danwanderson/ansible'
+    # fi
     # if Azure CLI isn't installed locally, use the container
-    if ! _has az;
-    then
-        alias az='docker run -it --rm -w="/root" --entrypoint /usr/local/bin/az -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro microsoft/azure-cli'
-        alias azpwsh='docker run -it --rm  --entrypoint /usr/local/bin/pwsh -v ${HOME}:/root azuresdk/azure-powershell'
-    fi
+    # if ! _has az;
+    # then
+    #     alias az='docker run -it --rm -w="/root" --entrypoint /usr/local/bin/az -v ${PWD}:/root -v ${HOME}/.ssh:/root/.ssh:ro microsoft/azure-cli'
+    #     alias azpwsh='docker run -it --rm  --entrypoint /usr/local/bin/pwsh -v ${HOME}:/root azuresdk/azure-powershell'
+    # fi
     # Jigdo container (for Debian images)
     alias jigdo='docker run --rm -v ${PWD}:/home/jigdo -it danwanderson/jigdo'
     # If wget isn't installed locally, use the container
