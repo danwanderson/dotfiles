@@ -98,7 +98,7 @@ fi
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mercurial zsh-autosuggestions zsh-syntax-highlighting colored-man-pages fzf z zsh-interactive-cd cp)
+plugins=(git mercurial zsh-autosuggestions zsh-syntax-highlighting colored-man-pages fzf z zsh-interactive-cd cp eza)
 
 if [ -f $ZSH/oh-my-zsh.sh ];
 then
@@ -404,8 +404,8 @@ fi
 
 # eza - needs to be after the above aliases or stuff won't work right
 if _has eza; then
-    omz plugin enable eza
-    omz plugin load eza
+    omz plugin enable eza &>/dev/null
+    omz plugin load eza &>/dev/null
 
     alias els="eza"
     if $(eza --version | grep "+git" &>/dev/null);
