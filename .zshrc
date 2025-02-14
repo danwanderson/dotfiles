@@ -78,6 +78,15 @@ zstyle ':omz:update' verbose minimal # only few lines
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+# eza configuration
+zstyle ':omz:plugins:eza' 'dirs-first' yes
+zstyle ':omz:plugins:eza' 'git-status' yes
+zstyle ':omz:plugins:eza' 'header' yes
+zstyle ':omz:plugins:eza' 'icons' yes
+zstyle ':omz:plugins:eza' 'size-prefix' si
+zstyle ':omz:plugins:eza' 'time-style' long-iso
+zstyle ':omz:plugins:eza' 'hyperlink' no
+
 if [[ -d ~/.oh-my-zsh/custom/plugins/zsh-autopair ]];
 then
     source ~/.oh-my-zsh/custom/plugins/zsh-autopair/autopair.zsh
@@ -345,23 +354,6 @@ function fcd1() {
     cd "$(${FD_CMD} --type d --max-depth 1 | fzf)"
 }
 
-if _has eza; then
-    alias els="eza"
-    if $(eza --version | grep "+git" &>/dev/null);
-    then
-        # built without git support
-        alias ela="eza --long --all --header --time-style=long-iso --icons"
-        alias ell="eza --long --header --time-style=long-iso --icons"
-        alias elt="eza --long --tree --header --time-style=long-iso --icons"
-        alias elm="eza --long --header --time-style=long-iso --modified --icons"
-    else
-        alias ela="eza --git --long --all --header --time-style=long-iso --icons"
-        alias ell="eza --git --long --header --time-style=long-iso --icons"
-        alias elt="eza --git --long --tree --header --time-style=long-iso --icons"
-        alias elm="eza --git --long --header --time-style=long-iso --modified --icons"
-    fi
-fi
-
 # HOSTTYPE = { Linux | OpenBSD | SunOS | etc. }
 if which uname &>/dev/null; then
   HOSTTYPE=`uname -s`
@@ -408,6 +400,27 @@ if [[ "$HOSTTYPE" = "Linux" ]]; then
     alias l="ls --color=auto"
     alias ll="ls --color -l"
     alias dirsize="du -h --max-depth=1 | sort -h; df --human-readable ."
+fi
+
+# eza - needs to be after the above aliases or stuff won't work right
+if _has eza; then
+    omz plugin enable eza
+    omz plugin load eza
+
+    alias els="eza"
+    if $(eza --version | grep "+git" &>/dev/null);
+    then
+        # built without git support
+        alias ela="eza --long --all --header --time-style=long-iso --icons"
+        alias ell="eza --long --header --time-style=long-iso --icons"
+        alias elt="eza --long --tree --header --time-style=long-iso --icons"
+        alias elm="eza --long --header --time-style=long-iso --modified --icons"
+    else
+        alias ela="eza --git --long --all --header --time-style=long-iso --icons"
+        alias ell="eza --git --long --header --time-style=long-iso --icons"
+        alias elt="eza --git --long --tree --header --time-style=long-iso --icons"
+        alias elm="eza --git --long --header --time-style=long-iso --modified --icons"
+    fi
 fi
 
 ## shell functions
