@@ -8,6 +8,7 @@
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=/opt/homebrew/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
@@ -79,8 +80,14 @@ zstyle ':omz:update' verbose minimal # only few lines
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # eza configuration
+NO_GIT_HOSTNAMES=(ironman doctorstrange hulk groot thor blackwidow hawkeye captainamerica)
 zstyle ':omz:plugins:eza' 'dirs-first' yes
-zstyle ':omz:plugins:eza' 'git-status' yes
+if [[ "${NO_GIT_HOSTNAMES[@]}" =~ $(hostname) ]];
+then
+    zstyle ':omz:plugins:eza' 'git-status' no
+else
+    zstyle ':omz:plugins:eza' 'git-status' yes
+fi
 zstyle ':omz:plugins:eza' 'header' yes
 zstyle ':omz:plugins:eza' 'icons' yes
 zstyle ':omz:plugins:eza' 'size-prefix' si
