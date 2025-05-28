@@ -348,9 +348,9 @@ fi
 
 if [[ $(${FD_CMD} --version) =~ "8.2.1" ]];
 then
-    export FZF_DEFAULT_COMMAND='${FD_CMD} --type f'
+    export FZF_DEFAULT_COMMAND="${FD_CMD} --type f"
 else
-    export FZF_DEFAULT_COMMAND='${FD_CMD} --type f --strip-cwd-prefix'
+    export FZF_DEFAULT_COMMAND="${FD_CMD} --type f --strip-cwd-prefix"
 fi
 
 function fcd() {
