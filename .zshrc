@@ -445,6 +445,18 @@ if _has eza; then
     fi
 fi
 
+if _has rustc;
+then
+    omz plugin enable rust &>/dev/null
+    omz plugin load rust &>/dev/null
+fi
+
+if _has mosh;
+then
+    omz plugin enable mosh &>/dev/null
+    omz plugin load mosh &>/dev/null
+fi
+
 ## shell functions
 #setenv() { export $1=$2 }  # csh compatibility
 
