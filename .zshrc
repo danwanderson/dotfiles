@@ -80,7 +80,7 @@ zstyle ':omz:update' verbose minimal # only few lines
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # eza configuration
-NO_GIT_HOSTNAMES=(ironman doctorstrange hulk groot thor blackwidow hawkeye captainamerica)
+NO_GIT_HOSTNAMES=()
 zstyle ':omz:plugins:eza' 'dirs-first' yes
 if [[ "${NO_GIT_HOSTNAMES[@]}" =~ $(hostname) ]];
 then
@@ -105,7 +105,7 @@ fi
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mercurial zsh-autosuggestions zsh-syntax-highlighting colored-man-pages fzf z zsh-interactive-cd cp eza)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting colored-man-pages z zsh-interactive-cd cp fzf eza)
 
 if [ -f $ZSH/oh-my-zsh.sh ];
 then
@@ -276,6 +276,12 @@ fi
 # Update IEEE OUI file locally
 alias update_oui="cd ~;curl -O https://standards-oui.ieee.org/oui/oui.txt"
 
+
+if _has hg;
+then
+    omz plugin enable mercurial &>/dev/null && omz plugin load mercurial &>/dev/null
+fi
+
 # Check to see if we have Docker installed
 if _has docker;
 then
@@ -335,34 +341,40 @@ export LESS="-R"
 #export GREP_OPTIONS='--color=auto'
 export GREP_COLORS="mt=34;42"
 
-# FZF default
-if _has fdfind;
+
+if _has fzf;
 then
-    FD_CMD=fdfind
-elif _has fd-find;
-then
-    FD_CMD=fd-find
-else
-    FD_CMD=fd
+    # FZF default
+    if _has fdfind;
+    then
+        FD_CMD=fdfind
+    elif _has fd-find;
+    then
+        FD_CMD=fd-find
+    else
+        FD_CMD=fd
+    fi
+
+    if [[ $(${FD_CMD} --version) =~ "8.2.1" ]];
+    then
+        export FZF_DEFAULT_COMMAND="${FD_CMD} --type f"
+    else
+        export FZF_DEFAULT_COMMAND="${FD_CMD} --type f --strip-cwd-prefix"
+    fi
+
+    export FZF_DEFAULT_OPTS="--style full \
+        --preview 'fzf-preview.sh {}' --bind 'focus:transform-header:file --brief {}'"
+
+    function fcd() {
+        cd "$(${FD_CMD} --type d | fzf)"
+    }
+
+    function fcd1() {
+        cd "$(${FD_CMD} --type d --max-depth 1 | fzf)"
+    }
+    omz plugin enable fzf &>/dev/null
+    omz plugin load fzf &>/dev/null
 fi
-
-if [[ $(${FD_CMD} --version) =~ "8.2.1" ]];
-then
-    export FZF_DEFAULT_COMMAND="${FD_CMD} --type f"
-else
-    export FZF_DEFAULT_COMMAND="${FD_CMD} --type f --strip-cwd-prefix"
-fi
-
-export FZF_DEFAULT_OPTS="--style full \
-    --preview 'fzf-preview.sh {}' --bind 'focus:transform-header:file --brief {}'"
-
-function fcd() {
-    cd "$(${FD_CMD} --type d | fzf)"
-}
-
-function fcd1() {
-    cd "$(${FD_CMD} --type d --max-depth 1 | fzf)"
-}
 
 # HOSTTYPE = { Linux | OpenBSD | SunOS | etc. }
 if which uname &>/dev/null; then
