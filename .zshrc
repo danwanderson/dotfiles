@@ -105,7 +105,7 @@ fi
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting colored-man-pages z zsh-interactive-cd cp fzf eza)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting colored-man-pages z zsh-interactive-cd cp)
 
 if [ -f $ZSH/oh-my-zsh.sh ];
 then
@@ -279,7 +279,8 @@ alias update_oui="cd ~;curl -O https://standards-oui.ieee.org/oui/oui.txt"
 
 if _has hg;
 then
-    omz plugin enable mercurial &>/dev/null && omz plugin load mercurial &>/dev/null
+    #omz plugin enable mercurial &>/dev/null 
+    omz plugin load mercurial &>/dev/null
 fi
 
 # Check to see if we have Docker installed
@@ -372,7 +373,7 @@ then
     function fcd1() {
         cd "$(${FD_CMD} --type d --max-depth 1 | fzf)"
     }
-    omz plugin enable fzf &>/dev/null
+    #omz plugin enable fzf &>/dev/null
     omz plugin load fzf &>/dev/null
 fi
 
@@ -426,7 +427,7 @@ fi
 
 # eza - needs to be after the above aliases or stuff won't work right
 if _has eza; then
-    omz plugin enable eza &>/dev/null
+    #omz plugin enable eza &>/dev/null
     omz plugin load eza &>/dev/null
 
     alias els="eza"
@@ -447,13 +448,13 @@ fi
 
 if _has rustc;
 then
-    omz plugin enable rust &>/dev/null
+    #omz plugin enable rust &>/dev/null
     omz plugin load rust &>/dev/null
 fi
 
 if _has mosh;
 then
-    omz plugin enable mosh &>/dev/null
+    #omz plugin enable mosh &>/dev/null
     omz plugin load mosh &>/dev/null
 fi
 
