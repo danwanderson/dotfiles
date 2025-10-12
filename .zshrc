@@ -353,6 +353,9 @@ else
     export FZF_DEFAULT_COMMAND="${FD_CMD} --type f --strip-cwd-prefix"
 fi
 
+export FZF_DEFAULT_OPTS="--style full \
+    --preview 'fzf-preview.sh {}' --bind 'focus:transform-header:file --brief {}'"
+
 function fcd() {
     cd "$(${FD_CMD} --type d | fzf)"
 }
