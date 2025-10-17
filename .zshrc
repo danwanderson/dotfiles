@@ -260,6 +260,14 @@ then
     export LESSOPEN="| $(which highlight) %s --out-format xterm256 --quiet --force --style moria"
 fi
 
+# Debian...
+if _has batcat;
+then
+    alias bat="$(whence -p batcat)"
+    alias cat="$(whence -p batcat)"
+    export BAT_THEME="Coldark-Dark"
+fi
+
 # use bat if a available
 if _has bat;
 then
@@ -279,7 +287,7 @@ alias update_oui="cd ~;curl -O https://standards-oui.ieee.org/oui/oui.txt"
 
 if _has hg;
 then
-    #omz plugin enable mercurial &>/dev/null 
+    #omz plugin enable mercurial &>/dev/null
     omz plugin load mercurial &>/dev/null
 fi
 
