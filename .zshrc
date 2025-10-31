@@ -912,6 +912,7 @@ expand_ipv6() {
 }
 
 export BAT_THEME="Dracula"
+export VIRTUAL_ENV_DISABLE_PROMPT="yes"
 
 # add pipx to path if it's installed
 if [ -d "${HOME}/.local/bin" ]; then
