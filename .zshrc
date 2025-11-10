@@ -925,5 +925,35 @@ if [ -e ~/.zshrc_local ]; then
 fi
 
 if _has fastfetch; then
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # macOS - use mount and filter
+        mount_list=$(mount | awk '$1 ~ /^\/dev\// || $1 ~ /^[^\/].*:/ {print $3}' | tr '\n' ':' | sed 's/:$//')
+    else
+        # Linux - use /proc/mounts
+        mount_list=$(awk '$3 ~ /^(ext[234]|xfs|btrfs|nfs|nfs4|cifs|vfat|ntfs|f2fs|zfs)$/ {print $2}' /proc/mounts | tr '\n' ':' | sed 's/:$//')
+    fi
+
+    #echo "$mount_list"
+
+    fastfetch --gen-config-force 2>&1 >/dev/null
+
+    ## Overwrite the "disk" module to show the disks that we want to display
+    # should look like
+    # { "type": "disk", "folders": "/mnt/nfs/to_transcode:/mnt/nfs/raw:/mnt/nfs/transcode_complete:/mnt/nfs/plex"}
+    # when we're done
+
+    CONFIG_FILE="$HOME/.config/fastfetch/config.jsonc"
+
+    # Replace the "disk" string with the disk module object
+    # Use gsed on macOS if available, otherwise use sed with appropriate syntax
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        if command -v gsed &> /dev/null; then
+            gsed -i 's|"disk"|{ "type": "disk", "folders": "'"$mount_list"'" }|g' "$CONFIG_FILE"
+        else
+            sed -i '' 's|"disk"|{ "type": "disk", "folders": "'"$mount_list"'" }|g' "$CONFIG_FILE"
+        fi
+    else
+        sed -i 's|"disk"|{ "type": "disk", "folders": "'"$mount_list"'" }|g' "$CONFIG_FILE"
+    fi
     fastfetch
 fi
