@@ -923,3 +923,7 @@ fi
 if [ -e ~/.zshrc_local ]; then
   source ~/.zshrc_local
 fi
+
+if _has fastfetch; then
+    fastfetch
+fi
