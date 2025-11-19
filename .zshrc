@@ -944,16 +944,20 @@ if _has fastfetch; then
 
     CONFIG_FILE="$HOME/.config/fastfetch/config.jsonc"
 
+    # Escape special characters in mount_list for use in sed
+    # Replace backslashes, forward slashes, ampersands, and quotes
+    escaped_mount_list=$(echo "${mount_list}" | sed 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g; s/"/\\"/g')
+
     # Replace the "disk" string with the disk module object
     # Use gsed on macOS if available, otherwise use sed with appropriate syntax
     if [[ "$OSTYPE" == "darwin"* ]]; then
         if command -v gsed &> /dev/null; then
-            gsed -i 's|"disk"|{ "type": "disk", "folders": "'"$mount_list"'" }|g' "$CONFIG_FILE"
+            gsed -i "s/\"disk\"/{ \"type\": \"disk\", \"folders\": \"${escaped_mount_list}\" }/g" "${CONFIG_FILE}"
         else
-            sed -i '' 's|"disk"|{ "type": "disk", "folders": "'"$mount_list"'" }|g' "$CONFIG_FILE"
+            sed -i '' "s/\"disk\"/{ \"type\": \"disk\", \"folders\": \"${escaped_mount_list}\" }/g" "${CONFIG_FILE}"
         fi
     else
-        sed -i 's|"disk"|{ "type": "disk", "folders": "'"$mount_list"'" }|g' "$CONFIG_FILE"
+        sed -i "s/\"disk\"/{ \"type\": \"disk\", \"folders\": \"${escaped_mount_list}\" }/g" "${CONFIG_FILE}"
     fi
     fastfetch
 fi
