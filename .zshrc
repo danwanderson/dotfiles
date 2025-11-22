@@ -180,11 +180,19 @@ _try() {
   return $( eval $* &>/dev/null )
 }
 
+# Homebrew on OSX
 if [ -x /opt/homebrew/bin/brew ];
 then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
+# Linux Homebrew paths
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew];
+then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
+# Homebrew on OSX installed in home directory
 if [ -x /Users/${USER}/homebrew/bin/brew ];
 then
     eval "$(/Users/${USER}/homebrew/bin/brew shellenv)"
