@@ -187,7 +187,7 @@ then
 fi
 
 # Linux Homebrew paths
-if [ -x /home/linuxbrew/.linuxbrew/bin/brew];
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ];
 then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
@@ -942,6 +942,11 @@ if _has fastfetch; then
     fi
 
     #echo "$mount_list"
+    CONFIG_FILE="$HOME/.config/fastfetch/config.jsonc"
+    if ! [ -d $(dirname "${CONFIG_FILE}") ];
+    then
+        mkdir -p $(dirname "${CONFIG_FILE}")
+    fi
 
     fastfetch --gen-config-force 2>&1 >/dev/null
 
@@ -950,7 +955,7 @@ if _has fastfetch; then
     # { "type": "disk", "folders": "/mnt/nfs/to_transcode:/mnt/nfs/raw:/mnt/nfs/transcode_complete:/mnt/nfs/plex"}
     # when we're done
 
-    CONFIG_FILE="$HOME/.config/fastfetch/config.jsonc"
+    # CONFIG_FILE="$HOME/.config/fastfetch/config.jsonc"
 
     # Escape special characters in mount_list for use in sed
     # Replace backslashes, forward slashes, ampersands, and quotes
