@@ -943,6 +943,7 @@ if _has fastfetch; then
 
     #echo "$mount_list"
     CONFIG_FILE="$HOME/.config/fastfetch/config.jsonc"
+
     if ! [ -d $(dirname "${CONFIG_FILE}") ];
     then
         mkdir -p $(dirname "${CONFIG_FILE}")
