@@ -932,10 +932,6 @@ if [ -e "${HOME}/.zshrc_local" ]; then
   source "${HOME}/.zshrc_local"
 fi
 
-if [ -f "${HOME}/.zprofile" ]; then
-    mv "${HOME}/.zprofile" "${HOME}/.zprofile.bak"
-fi
-
 if _has fastfetch; then
     if [[ "$OSTYPE" == "darwin"* ]]; then
         # macOS - use mount and filter
