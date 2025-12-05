@@ -928,8 +928,12 @@ if [ -d "${HOME}/.local/bin" ]; then
 fi
 
 ## Import machine-specific settings if available
-if [ -e ~/.zshrc_local ]; then
-  source ~/.zshrc_local
+if [ -e "${HOME}/.zshrc_local" ]; then
+  source "${HOME}/.zshrc_local"
+fi
+
+if [ -f "${HOME}/.zprofile" ]; then
+    mv "${HOME}/.zprofile" "${HOME}/.zprofile.bak"
 fi
 
 if _has fastfetch; then
