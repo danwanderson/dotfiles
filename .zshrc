@@ -933,8 +933,8 @@ if [ -e "${HOME}/.zshrc_local" ]; then
 fi
 
 if _has fastfetch; then
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        # macOS - use mount and filter
+    if [[ "$OSTYPE" == "darwin"* ]] || [[ "$OSTYPE" == "freebsd"* ]]; then
+        # macOS and FreeBSD - use mount and filter
         mount_list=$(mount | awk '$1 ~ /^\/dev\// || $1 ~ /^[^\/].*:/ {print $3}' | tr '\n' ':' | sed 's/:$//')
     else
         # Linux - use /proc/mounts
@@ -964,7 +964,7 @@ if _has fastfetch; then
 
     # Replace the "disk" string with the disk module object
     # Use gsed on macOS if available, otherwise use sed with appropriate syntax
-    if [[ "$OSTYPE" == "darwin"* ]]; then
+    if [[ "$OSTYPE" == "darwin"* ]] || [[ "$OSTYPE" == "freebsd"* ]]; then
         if command -v gsed &> /dev/null; then
             gsed -i "s/\"disk\"/{ \"type\": \"disk\", \"folders\": \"${escaped_mount_list}\" }/g" "${CONFIG_FILE}"
         else
