@@ -341,6 +341,10 @@ then
     fi
 
     alias docker-autocompose='docker run --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/red5d/docker-autocompose'
+
+    alias dcupdate="docker compose pull && docker compose down && docker compose up --detach"
+    omz plugin load docker &>/dev/null
+    omz plugin load docker-compose &>/dev/null
 fi
 
 # OSX
