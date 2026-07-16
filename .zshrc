@@ -953,7 +953,7 @@ if _has fastfetch; then
         mkdir -p $(dirname "${CONFIG_FILE}")
     fi
 
-    fastfetch --gen-config-force --localip-show-mac --localip-show-speed --localip-show-mtu 2>&1 >/dev/null
+    fastfetch --gen-config-force 2>&1 >/dev/null
 
     ## Overwrite the "disk" module to show the disks that we want to display
     # should look like
@@ -971,11 +971,14 @@ if _has fastfetch; then
     if [[ "$OSTYPE" == "darwin"* ]] || [[ "$OSTYPE" == "freebsd"* ]]; then
         if command -v gsed &> /dev/null; then
             gsed -i "s/\"disk\"/{ \"type\": \"disk\", \"folders\": \"${escaped_mount_list}\" }/g" "${CONFIG_FILE}"
+            gsed -i "s/\"localip\"/{ \"type\": \"localip\", \"showMac\": true, \"showPrefixLen\": true, \"showMtu\": true, \"showSpeed\": true }/g" "${CONFIG_FILE}"
         else
             sed -i '' "s/\"disk\"/{ \"type\": \"disk\", \"folders\": \"${escaped_mount_list}\" }/g" "${CONFIG_FILE}"
+            sed -i '' "s/\"localip\"/{ \"type\": \"localip\", \"showMac\": true, \"showPrefixLen\": true, \"showMtu\": true, \"showSpeed\": true }/g" "${CONFIG_FILE}"
         fi
     else
         sed -i "s/\"disk\"/{ \"type\": \"disk\", \"folders\": \"${escaped_mount_list}\" }/g" "${CONFIG_FILE}"
+        sed -i "s/\"localip\"/{ \"type\": \"localip\", \"showMac\": true, \"showPrefixLen\": true, \"showMtu\": true, \"showSpeed\": true }/g" "${CONFIG_FILE}"
     fi
     fastfetch
 fi
