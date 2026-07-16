@@ -953,7 +953,7 @@ if _has fastfetch; then
         mkdir -p $(dirname "${CONFIG_FILE}")
     fi
 
-    fastfetch --gen-config-force 2>&1 >/dev/null
+    fastfetch --gen-config-force --localip-show-mac --localip-show-speed --localip-show-mtu 2>&1 >/dev/null
 
     ## Overwrite the "disk" module to show the disks that we want to display
     # should look like
