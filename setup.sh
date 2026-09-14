@@ -296,7 +296,9 @@ done
 eval set -- "$PARAMS"
 
 check_os
-install_requirements # kind of a misnomer since it'll only install if asked
+if [[ ${INSTALL_REQUIREMENTS} = 1 ]]; then
+    install_requirements # kind of a misnomer since it'll only install if asked
+fi
 
 if [[ ${SETUP_VIM} = 1 ]]; then
     setup_vim
