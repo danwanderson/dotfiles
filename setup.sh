@@ -24,7 +24,7 @@ function usage() {
     echo "  -a, --all                    Run all setup steps (requirements, vim, zsh, link)"
     echo "  -r, --install-requirements   Install required packages (fzf, fd, zsh, git, vim)"
     echo "  -v, --setup-vim              Setup vim and plugins"
-    echo "  -z, --setup--zsh             Setup zsh and plugins"
+    echo "  -z, --setup-zsh             Setup zsh and plugins"
     echo "      --debug                  Enable debug mode"
     echo "      --dryrun, --dry-run      Show what would be done, but do not actually do it"
     echo ""
@@ -273,7 +273,7 @@ do
             DRYRUN=1
             shift
             ;;
-        -z|--setup--zsh)
+        -z|--setup-zsh)
             SETUP_ZSH=1
             shift
             ;;
