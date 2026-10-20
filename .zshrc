@@ -220,7 +220,7 @@ alias update_vim="vim +PluginUpdate +qall"
 # Add homebrew update if availalble
 if _has brew;
 then
-    alias bu="brew update && brew upgrade && brew upgrade --cask"
+    alias bu="brew update && brew upgrade --yes && brew upgrade --cask --yes"
 fi
 
 # if gawk is avaliable, use that
