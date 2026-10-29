@@ -105,7 +105,7 @@ fi
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting colored-man-pages z zsh-interactive-cd cp)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting colored-man-pages z zsh-interactive-cd cp ssh systemadmin timer)
 
 if [ -f $ZSH/oh-my-zsh.sh ];
 then
@@ -418,6 +418,7 @@ if [[ "$HOSTTYPE" = "Darwin" ]]; then
         alias git='/usr/local/bin/git'
     fi
     alias dirsize="du -h -d 1 | sort -h;df -hP ."
+    omz plugin load macos iterm2 gnu-utils
 fi
 
 if [[ "$HOSTTYPE" = "FreeBSD" ]]; then
@@ -953,7 +954,7 @@ if _has fastfetch; then
         mkdir -p $(dirname "${CONFIG_FILE}")
     fi
 
-    fastfetch --gen-config-force 2>&1 >/dev/null
+    fastfetch --gen-config 2>&1 >/dev/null
 
     ## Overwrite the "disk" module to show the disks that we want to display
     # should look like
