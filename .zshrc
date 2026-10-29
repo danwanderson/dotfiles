@@ -932,10 +932,6 @@ if [ -d "${HOME}/.local/bin" ]; then
     export PATH="${HOME}/.local/bin:$PATH"
 fi
 
-## Import machine-specific settings if available
-if [ -e "${HOME}/.zshrc_local" ]; then
-  source "${HOME}/.zshrc_local"
-fi
 
 if _has fastfetch; then
     if [[ "$OSTYPE" == "darwin"* ]] || [[ "$OSTYPE" == "freebsd"* ]]; then
@@ -974,15 +970,20 @@ if _has fastfetch; then
     # Use gsed on macOS if available, otherwise use sed with appropriate syntax
     if [[ "$OSTYPE" == "darwin"* ]] || [[ "$OSTYPE" == "freebsd"* ]]; then
         if command -v gsed &> /dev/null; then
-            gsed -i "s/\"disk\"/{ \"type\": \"disk\", \"folders\": \"${escaped_mount_list}\" }/g" "${CONFIG_FILE}"
-            gsed -i "s/\"localip\"/{ \"type\": \"localip\", \"showMac\": true, \"showPrefixLen\": true, \"showMtu\": true, \"showSpeed\": true }/g" "${CONFIG_FILE}"
+            gsed -i "s/\"disk\",/{ \"type\": \"disk\", \"folders\": \"${escaped_mount_list}\" },/g" "${CONFIG_FILE}"
+            gsed -i "s/\"localip\",/{ \"type\": \"localip\", \"showMac\": true, \"showPrefixLen\": true, \"showMtu\": true, \"showSpeed\": true },/g" "${CONFIG_FILE}"
         else
-            sed -i '' "s/\"disk\"/{ \"type\": \"disk\", \"folders\": \"${escaped_mount_list}\" }/g" "${CONFIG_FILE}"
-            sed -i '' "s/\"localip\"/{ \"type\": \"localip\", \"showMac\": true, \"showPrefixLen\": true, \"showMtu\": true, \"showSpeed\": true }/g" "${CONFIG_FILE}"
+            sed -i '' "s/\"disk\",/{ \"type\": \"disk\", \"folders\": \"${escaped_mount_list}\" },/g" "${CONFIG_FILE}"
+            sed -i '' "s/\"localip\",/{ \"type\": \"localip\", \"showMac\": true, \"showPrefixLen\": true, \"showMtu\": true, \"showSpeed\": true },/g" "${CONFIG_FILE}"
         fi
     else
-        sed -i "s/\"disk\"/{ \"type\": \"disk\", \"folders\": \"${escaped_mount_list}\" }/g" "${CONFIG_FILE}"
-        sed -i "s/\"localip\"/{ \"type\": \"localip\", \"showMac\": true, \"showPrefixLen\": true, \"showMtu\": true, \"showSpeed\": true }/g" "${CONFIG_FILE}"
+        sed -i "s/\"disk\",/{ \"type\": \"disk\", \"folders\": \"${escaped_mount_list}\" },/g" "${CONFIG_FILE}"
+        sed -i "s/\"localip\",/{ \"type\": \"localip\", \"showMac\": true, \"showPrefixLen\": true, \"showMtu\": true, \"showSpeed\": true },/g" "${CONFIG_FILE}"
     fi
     fastfetch
+fi
+
+## Import machine-specific settings if available
+if [ -e "${HOME}/.zshrc_local" ]; then
+  source "${HOME}/.zshrc_local"
 fi
