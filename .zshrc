@@ -954,12 +954,10 @@ if _has fastfetch; then
         mkdir -p $(dirname "${CONFIG_FILE}")
     fi
 
-    if [ -f "${CONFIG_FILE}" ];
+    if ! [ -f "${CONFIG_FILE}" ];
     then
-        rm -f "${CONFIG_FILE}"
+        fastfetch --gen-config "${CONFIG_FILE}" 2>&1 >/dev/null
     fi
-
-    fastfetch --gen-config 2>&1 >/dev/null
 
     ## Overwrite the "disk" module to show the disks that we want to display
     # should look like
